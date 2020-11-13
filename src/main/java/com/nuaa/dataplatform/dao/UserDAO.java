@@ -28,10 +28,10 @@ public interface UserDAO {
     void updateUser(User user);
 
     @Update({"update ", TABLE_NAME, " set password=#{password} where id=#{id}"})
-    void updatePasswordById(int id);
+    void updatePasswordById(int id, String password);
 
     @Update({"update ", TABLE_NAME, " set authority=#{authority} where id=#{id}"})
-    void updateAuthorityById(int id);
+    void updateAuthorityById(int id, String authority);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);
