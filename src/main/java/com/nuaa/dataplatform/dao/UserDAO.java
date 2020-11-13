@@ -3,15 +3,16 @@ package com.nuaa.dataplatform.dao;
 import com.nuaa.dataplatform.entity.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserDAO {
     String TABLE_NAME = "user";
-    //把这些字符串独立出来,避免以后需要修改语句时下面要修改一大串
-    String INSERT_FIELDS = " username, password ";
-    String SELECT_FIELDS = " id, username, password ";
-    //通过注解执行相应的 SQL 语句
+    String INSERT_FIELDS = " username, password, authority ";
+    String SELECT_FIELDS = " id, username, password, authority ";
+
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
-            ") values (#{username},#{password})"})
+            ") values (#{username},#{password},#{authority})"})
     int addUser(User user);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
@@ -20,8 +21,17 @@ public interface UserDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where username=#{username}"})
     User selectByUsername(String username);
 
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where authority=#{authority}"})
+    List<User> selectByAuthority(int id);
+
+    @Update({"update ", TABLE_NAME, " set username=#{username},password=#{password},authority=#{authority} where id=#{id}"})
+    void updateUser(User user);
+
     @Update({"update ", TABLE_NAME, " set password=#{password} where id=#{id}"})
-    void updatePassword(User user);
+    void updatePasswordById(int id);
+
+    @Update({"update ", TABLE_NAME, " set authority=#{authority} where id=#{id}"})
+    void updateAuthorityById(int id);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);
