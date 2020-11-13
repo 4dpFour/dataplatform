@@ -5,9 +5,9 @@ import java.util.Date;
 
 public class Webdata implements Serializable {
     private int id;
-    private int urlID;
+    private int urlId;
     private Date datetime;
-    private int contractID;
+    private int contractId;
 
     public int getId() {
         return id;
@@ -17,12 +17,12 @@ public class Webdata implements Serializable {
         this.id = id;
     }
 
-    public int getUrlID() {
-        return urlID;
+    public int getUrlId() {
+        return urlId;
     }
 
-    public void setUrlID(int urlID) {
-        this.urlID = urlID;
+    public void setUrlId(int urlId) {
+        this.urlId = urlId;
     }
 
     public Date getDatetime() {
@@ -33,11 +33,11 @@ public class Webdata implements Serializable {
         this.datetime = datetime;
     }
 
-    public int getContractID() {
-        return contractID;
+    public int getContractId() {
+        return contractId;
     }
 
-    public void setContractID(int contractID) {
-        this.contractID = contractID;
+    public void setContractId(int contractId) {
+        this.contractId = contractId;
     }
 }
