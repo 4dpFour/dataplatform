@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 @Controller
 public class HomeController {
 
@@ -14,7 +15,7 @@ public class HomeController {
 
     @RequestMapping(value = "/")
     public String index(Model model) {
-        User user = userService.getTestUser();
+        User user = userService.getUser(1);
         model.addAttribute("user", user);
         return "index";
     }

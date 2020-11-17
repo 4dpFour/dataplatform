@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.nuaa.dataplatform.dao.URLDAO">
+    <update id="updateURLById">
+        update url
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">name=#{name},</if>
+            <if test="address != null and address != ''">address=#{address},</if>
+            <if test="lastAuthorId != null and lastAuthorId > 0">lastAuthorId=#{lastAuthorId},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+</mapper>

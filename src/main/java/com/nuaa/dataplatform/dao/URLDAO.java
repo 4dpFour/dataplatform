@@ -19,6 +19,9 @@ public interface URLDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
     URL selectById(int id);
 
+    @Select({"select", SELECT_FIELDS, "from", TABLE_NAME, "order by id limit #{offset},#{limit}"})
+    List<URL> selectByOffset(@Param("offset") int offset, @Param("limit") int limit);
+
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where name=#{name}"})
     URL selectByName(String name);
 
@@ -31,9 +34,7 @@ public interface URLDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where lastAuthorId=#{lastAuthorId}"})
     URL selectByLastAuthorId(int lastAuthorId);
 
-    @Update({"update ", TABLE_NAME, " set name=#{name},address=#{address},initAuthorId=#{initAuthorId}," +
-            "lastAuthorId=#{lastAuthorId} where id=#{id}"})
-    void updateURL(URL url);
+    void updateURLById(@Param("id") int id, @Param("name") String name, @Param("address") String address, @Param("lastAuthorId") int lastAuthorId);
 
     @Update({"update ", TABLE_NAME, " set name=#{name} where id=#{id}"})
     void updateNameIdById(int id, String name);

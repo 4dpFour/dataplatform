@@ -11,7 +11,11 @@ public class UserService {
     @Autowired
     private UserDAO userDAO;
 
-    public User getTestUser() {
-        return userDAO.selectById(1);
+    public User getUser(int id) {
+        return userDAO.selectById(id);
+    }
+
+    public void updateUser(User user) {
+        userDAO.updateUser(user);
     }
 }
