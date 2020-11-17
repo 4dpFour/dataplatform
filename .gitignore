@@ -36,4 +36,4 @@ build/
 mvnw
 mvnw.cmd
 dataplatform.iml
-*.properties
+application.properties
