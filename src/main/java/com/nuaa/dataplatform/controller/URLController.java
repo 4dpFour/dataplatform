@@ -1,12 +1,10 @@
 package com.nuaa.dataplatform.controller;
 
 import com.nuaa.dataplatform.entity.URL;
-import com.nuaa.dataplatform.entity.User;
 import com.nuaa.dataplatform.service.URLService;
-import com.nuaa.dataplatform.service.UserService;
 import com.nuaa.dataplatform.util.Result;
+import com.nuaa.dataplatform.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,10 +23,10 @@ public class URLController {
             if (url != null) {
                 return Result.success(url);
             } else {
-                return Result.failure(404);
+                return Result.failure(ResultCode.NOT_FOUND);
             }
         } catch (Exception e) {
-            return Result.failure(400);
+            return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 
@@ -40,10 +38,10 @@ public class URLController {
             if (urls != null && urls.size() > 0) {
                 return Result.success(urls);
             } else {
-                return Result.failure(404);
+                return Result.failure(ResultCode.NOT_FOUND);
             }
         } catch (Exception e) {
-            return Result.failure(400);
+            return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 
@@ -53,15 +51,15 @@ public class URLController {
                          @RequestParam(value = "initAuthorId") int initAuthorId) {
         try {
             if (name == null || name.length() == 0) {
-                return Result.failure(403, "name 为空");
+                return Result.failure(ResultCode.FORBIDDEN, "name 为空");
             }
             if (address == null || address.length() == 0) {
-                return Result.failure(403, "address 为空");
+                return Result.failure(ResultCode.FORBIDDEN, "address 为空");
             }
             URL url = urlService.addURL(name, address, initAuthorId);
             return Result.success(url);
         } catch (Exception e) {
-            return Result.failure(400);
+            return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 
@@ -71,7 +69,7 @@ public class URLController {
             urlService.deleteURL(id);
             return Result.success();
         } catch (Exception e) {
-            return Result.failure(400);
+            return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 
@@ -84,7 +82,7 @@ public class URLController {
             urlService.updateURL(id, name, address, lastAuthorId);
             return Result.success();
         } catch (Exception e) {
-            return Result.failure(400);
+            return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 }

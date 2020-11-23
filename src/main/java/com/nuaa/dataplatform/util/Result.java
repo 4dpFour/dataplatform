@@ -35,33 +35,18 @@ public class Result implements Serializable {
     }
 
     public Result() {
-        this.code = 200;
-        this.msg = switchMsg(200);
+        this.code = ResultCode.SUCCESS.getCode();
+        this.msg = ResultCode.SUCCESS.getMsg();
     }
 
-    /** 提供 code，自动选择 msg */
-    public Result(int code) {
-        this.code = code;
-        this.msg = switchMsg(code);
+    public Result(ResultCode resultCode) {
+        this.code = resultCode.getCode();
+        this.msg = resultCode.getMsg();
     }
 
-    /** 提供 code，强制指定 msg */
-    public Result(int code, String msg) {
-        this.code = code;
-        this.msg = msg;
-    }
-
-    /** 提供 code 和 data ，自动选择 msg */
-    public Result(int code, Object data) {
-        this.code = code;
-        this.msg = switchMsg(code);
-        this.data = data;
-    }
-
-    /** 提供 code 和 data ，强制指定 msg */
-    public Result(int code, String msg, Object data) {
-        this.code = code;
-        this.msg = msg;
+    public Result(ResultCode resultCode, Object data) {
+        this.code = resultCode.getCode();
+        this.msg = resultCode.getMsg();
         this.data = data;
     }
 
@@ -78,36 +63,26 @@ public class Result implements Serializable {
         return json.toJSONString();
     }
 
+    /** 成功，不附带数据 */
     public static Result success() {
-        return new Result(200);
+        return new Result(ResultCode.SUCCESS);
     }
 
+    /** 成功，附带数据 */
     public static Result success(Object data) {
-        return new Result(200, data);
+        return new Result(ResultCode.SUCCESS, data);
     }
 
-    public static Result failure(int code) {
-        return new Result(code);
+    /** 失败，使用默认的 msg */
+    public static Result failure(ResultCode resultCode) {
+        return new Result(resultCode);
     }
 
-    public static Result failure(int code, String msg) {
-        return new Result(code, msg);
+    /** 失败，使用自定义的 msg */
+    public static Result failure(ResultCode resultCode, String msg) {
+        Result result = new Result(resultCode);
+        result.setMsg(msg);
+        return result;
     }
 
-    /** 添加状态码对应信息从这里添加即可 */
-    private String switchMsg(int code) {
-        switch (code) {
-            case 200:
-                return "OK";
-            case 201:
-                return "created";
-            case 400:
-                return "Bad request";
-            case 403:
-                return "Forbidden";
-            case 404:
-                return "Not found";
-        }
-        return "error";
-    }
 }
