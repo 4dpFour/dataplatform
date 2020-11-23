@@ -26,6 +26,7 @@ public class URLController {
                 return Result.failure(ResultCode.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
