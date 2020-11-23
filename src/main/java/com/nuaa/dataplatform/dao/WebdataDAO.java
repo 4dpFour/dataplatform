@@ -24,7 +24,7 @@ public interface WebdataDAO {
     List<Webdata> selectByUrlId(String urlId);
 
     @Update({"update ", TABLE_NAME, " set urlId=#{urlId},getDate=#{getDate},contractId=#{contractId} where id=#{id}"})
-    void updateWebdataById(Webdata webdata);
+    void updateWebdata(Webdata webdata);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);

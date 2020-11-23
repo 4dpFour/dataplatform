@@ -1,10 +1,8 @@
 package com.nuaa.dataplatform.dao;
 
 import com.nuaa.dataplatform.entity.Contract;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import com.nuaa.dataplatform.entity.User;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -29,6 +27,50 @@ public interface ContractDAO {
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplier=#{supplier}"})
     List<Contract> selectBySupplier(String supplier);
+
+    @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo}," +
+            "contractName=#{contractName},projectNo=#{projectNo},projectName=#{projectName}," +
+            "purchaser=#{purchaser},purchaserTelNo=#{purchaserTelNo},supplier=#{supplier}," +
+            "supplierTelNo=#{supplierTelNo},subjectName=#{subjectName},subjectUnitPrice=#{subjectUnitPrice}" +
+            "contractValue=#{contractValue},announceDate=#{announceDate}" +
+            " where id=#{id}"})
+    void updateContract(Contract contract);
+
+    @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo} where id=#{id}"})
+    void updateContractNoById(int id, String contractNo);
+
+    @Update({"update ", TABLE_NAME, " set contractName=#{contractName} where id=#{id}"})
+    void updateContractNameById(int id, String contractName);
+
+    @Update({"update ", TABLE_NAME, " set projectNo=#{projectNo} where id=#{id}"})
+    void updateProjectNoById(int id, String projectNo);
+
+    @Update({"update ", TABLE_NAME, " set projectName=#{projectName} where id=#{id}"})
+    void updateProjectNameById(int id, String projectName);
+
+    @Update({"update ", TABLE_NAME, " set purchaser=#{purchaser} where id=#{id}"})
+    void updatePurchaserById(int id, String purchaser);
+
+    @Update({"update ", TABLE_NAME, " set purchaserTelNo=#{purchaserTelNo} where id=#{id}"})
+    void updatePurchaserTelNoById(int id, String purchaserTelNo);
+
+    @Update({"update ", TABLE_NAME, " set supplier=#{supplier} where id=#{id}"})
+    void updateSupplierById(int id, String supplier);
+
+    @Update({"update ", TABLE_NAME, " set supplierTelNo=#{supplierTelNo} where id=#{id}"})
+    void updateSupplierTelNoById(int id, String supplierTelNo);
+
+    @Update({"update ", TABLE_NAME, " set subjectName=#{subjectName} where id=#{id}"})
+    void updateSubjectNameById(int id, String subjectName);
+
+    @Update({"update ", TABLE_NAME, " set subjectUnitPrice=#{subjectUnitPrice} where id=#{id}"})
+    void updateSubjectUnitPriceById(int id, float subjectUnitPrice);
+
+    @Update({"update ", TABLE_NAME, " set contractValue=#{contractValue} where id=#{id}"})
+    void updateContractValueById(int id, float contractValue);
+
+    @Update({"update ", TABLE_NAME, " set announceDate=#{announceDate} where id=#{id}"})
+    void updateAnnounceDateById(int id, float announceDate);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);
