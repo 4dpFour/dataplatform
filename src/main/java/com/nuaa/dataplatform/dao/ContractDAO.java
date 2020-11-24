@@ -28,6 +28,7 @@ public interface ContractDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplier=#{supplier}"})
     List<Contract> selectBySupplier(String supplier);
 
+
     @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo}," +
             "contractName=#{contractName},projectNo=#{projectNo},projectName=#{projectName}," +
             "purchaser=#{purchaser},purchaserTelNo=#{purchaserTelNo},supplier=#{supplier}," +
@@ -35,6 +36,7 @@ public interface ContractDAO {
             "contractValue=#{contractValue},announceDate=#{announceDate}" +
             " where id=#{id}"})
     void updateContract(Contract contract);
+
 
     @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo} where id=#{id}"})
     void updateContractNoById(int id, String contractNo);
