@@ -2,8 +2,6 @@ package com.nuaa.dataplatform.util;
 
 import com.alibaba.fastjson.JSONObject;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Result implements Serializable {
     private int code;    //默认200

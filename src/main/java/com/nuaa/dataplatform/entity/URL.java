@@ -49,6 +49,8 @@ public class URL implements Serializable {
         this.lastAuthorId = lastAuthorId;
     }
 
+    public URL() {}
+
     public URL(String name, String address, int initAuthorId) {
         this.name = name;
         this.address = address;
