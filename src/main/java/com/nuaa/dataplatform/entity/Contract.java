@@ -30,13 +30,15 @@ public class Contract implements Serializable {
         this.purchaser = purchaser;
         this.purchaserTelNo = purchaserTelNo;
         this.supplier = supplier;
-        this.supplierTelNo = supplierTelNo
+        this.supplierTelNo = supplierTelNo;
         this.subjectName = subjectName;
         this.subjectUnitPrice = subjectUnitPrice;
         this.contractValue = contractValue;
         this.announceDate = announceDate;
     }
 
+ */
+/*
     public Contract(String contractNo, String contractName, String projectNo, String projectName,
                     String purchaser, String purchaserTelNo, String supplier, String subjectName,
                     float subjectUnitPrice, float contractValue, Date announceDate) {

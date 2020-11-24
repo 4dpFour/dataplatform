@@ -9,8 +9,9 @@ import java.util.List;
 @Mapper
 public interface ContractDAO {
     String TABLE_NAME = "contract";
-    String INSERT_FIELDS = " contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo, supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate ";
-    String SELECT_FIELDS = " id " + INSERT_FIELDS;
+    String INSERT_FIELDS = " contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo, " +
+            "supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate ";
+    String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
             ") values (#{contractNo},#{contractName},#{projectNo},#{projectName},#{purchaser},#{purchaserTelNo},#{supplier},#{supplierTelNo},#{subjectName},#{subjectUnitPrice},#{contractValue},#{announceDate})"})
