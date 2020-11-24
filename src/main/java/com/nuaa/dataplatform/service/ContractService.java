@@ -21,7 +21,14 @@ public class ContractService {
                                 String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
                                 String subjectName, float subjectUnitPrice, float contractValue, Date announceDate)
     {
-        return null;
+        Contract contract = new Contract(contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo,
+                supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate);
+        contractDAO.addContract(contract);
+        return contract;
+    }
+
+    public void deleteContract(int id) {
+        contractDAO.deleteById(id);
     }
 
     public void updateUser(Contract contract) {
