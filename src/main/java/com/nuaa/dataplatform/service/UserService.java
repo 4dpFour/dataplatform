@@ -18,10 +18,26 @@ public class UserService {
     @Autowired
     private LoginTicketDAO loginTicketDAO;
 
+    public User getUserById(int id) {
+        return userDAO.selectById(id);
+    }
+
+    public User getUserByUsername(String username) {
+        return userDAO.selectByUsername(username);
+    }
+
+    public void updateUserById(int id, String password, String authority) {
+        userDAO.updateUserById(id, password, authority);
+    }
+
+    public void deleteUserById(int id) {
+        userDAO.deleteById(id);
+    }
+
     public String register(String username, String password, int authority) {
         User user = new User(username, password, authority);
         userDAO.addUser(user);
-        //注册成功给他发一个机票 自动登录
+        //注册成功也发一个机票 自动登录
         return addLoginTicket(user.getId());
     }
 

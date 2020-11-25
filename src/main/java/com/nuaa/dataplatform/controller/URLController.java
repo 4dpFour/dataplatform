@@ -2,6 +2,7 @@ package com.nuaa.dataplatform.controller;
 
 import com.nuaa.dataplatform.entity.URL;
 import com.nuaa.dataplatform.service.URLService;
+import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
 import com.nuaa.dataplatform.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ public class URLController {
 
     @Autowired
     private URLService urlService;
+    @Autowired
+    private HostHolder hostHolder;
 
     @GetMapping("/{id}")
     public Result getURL(@PathVariable int id) {
@@ -32,8 +35,8 @@ public class URLController {
     }
 
     @PostMapping("/list")
-    public Result getURLList(@RequestParam(value = "offset") int offset,
-                         @RequestParam(value = "limit") int limit) {
+    public Result getURLList(@RequestParam("offset") int offset,
+                         @RequestParam("limit") int limit) {
         try {
             List<URL> urls = urlService.getURLList(offset, limit);
             if (urls != null && urls.size() > 0) {
@@ -42,14 +45,14 @@ public class URLController {
                 return Result.failure(ResultCode.NOT_FOUND);
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 
     @PostMapping()
-    public Result addURL(@RequestParam(value = "name") String name,
-                         @RequestParam(value = "address") String address,
-                         @RequestParam(value = "initAuthorId") int initAuthorId) {
+    public Result addURL(@RequestParam("name") String name,
+                         @RequestParam("address") String address) {
         try {
             if (name == null || name.length() == 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "name 为空");
@@ -57,9 +60,10 @@ public class URLController {
             if (address == null || address.length() == 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "address 为空");
             }
-            URL url = urlService.addURL(name, address, initAuthorId);
+            URL url = urlService.addURL(name, address, hostHolder.getUser().getId());
             return Result.success(url);
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
@@ -70,6 +74,7 @@ public class URLController {
             urlService.deleteURL(id);
             return Result.success();
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
@@ -77,12 +82,12 @@ public class URLController {
     @PutMapping("/{id}")
     public Result updateURL(@PathVariable int id,
                             @RequestParam(value = "name", required=false) String name,
-                            @RequestParam(value = "address", required=false) String address,
-                            @RequestParam(value = "lastAuthorId") int lastAuthorId) {
+                            @RequestParam(value = "address", required=false) String address) {
         try {
-            urlService.updateURL(id, name, address, lastAuthorId);
+            urlService.updateURL(id, name, address, hostHolder.getUser().getId());
             return Result.success();
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }

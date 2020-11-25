@@ -24,14 +24,7 @@ public interface UserDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where authority=#{authority}"})
     List<User> selectByAuthority(int id);
 
-    @Update({"update ", TABLE_NAME, " set username=#{username},password=#{password},authority=#{authority} where id=#{id}"})
-    void updateUser(User user);
-
-    @Update({"update ", TABLE_NAME, " set password=#{password} where id=#{id}"})
-    void updatePasswordById(int id, String password);
-
-    @Update({"update ", TABLE_NAME, " set authority=#{authority} where id=#{id}"})
-    void updateAuthorityById(int id, String authority);
+    void updateUserById(@Param("id") int id, @Param("password") String password, @Param("authority") String authority);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);

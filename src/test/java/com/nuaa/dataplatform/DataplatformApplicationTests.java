@@ -1,7 +1,5 @@
 package com.nuaa.dataplatform;
 
-import com.alibaba.fastjson.JSONObject;
-import com.nuaa.dataplatform.entity.User;
 import com.nuaa.dataplatform.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,9 +15,5 @@ public class DataplatformApplicationTests {
 
     @Test
     public void test() {
-        User user1 = userService.getUser(1);
-        System.out.println(JSONObject.toJSONString(user1));
-        User user2 = userService.getUser(7);
-        System.out.println(JSONObject.toJSONString(user2));
     }
 }
