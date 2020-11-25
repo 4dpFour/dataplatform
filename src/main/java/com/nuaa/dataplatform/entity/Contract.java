@@ -158,4 +158,7 @@ public class Contract implements Serializable {
         this.contractValue = contractValue;
         this.announceDate = announceDate;
     }
+
+    public Contract() {
+    }
 }

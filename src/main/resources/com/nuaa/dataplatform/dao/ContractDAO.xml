@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--1-->
+<mapper namespace="com.nuaa.dataplatform.dao.ContractDAO">
+    <!--    2-->
+    <update id="updateContractById">
+        update contract
+        <trim prefix="set" suffixOverrides=",">
+            <if test="contractNo != null and contractNo != ''">contractNo=#{contractNo},</if>
+            <if test="contractName != null and contractName != ''">contractName=#{contractName},</if>
+            <if test="projectNo != null and projectNo != ''">projectNo=#{projectNo},</if>
+            <if test="projectName != null and projectName != ''">projectName=#{projectName},</if>
+            <if test="purchaser != null and purchaser != ''">purchaser=#{purchaser},</if>
+            <if test="purchaserTelNo != null and purchaserTelNo != ''">purchaserTelNo=#{purchaserTelNo},</if>
+            <if test="supplier != null and supplier != ''">supplier=#{supplier},</if>
+            <if test="supplierTelNo != null and supplierTelNo != ''">supplierTelNo=#{supplierTelNo},</if>
+            <if test="subjectName != null and subjectName != ''">subjectName=#{subjectName},</if>
+            <if test="subjectUnitPrice != null and subjectUnitPrice != ''">subjectUnitPrice=#{subjectUnitPrice},</if>
+            <if test="contractValue != null and contractValue != ''">contractValue=#{contractValue},</if>
+            <if test="announceDate != null and announceDate != ''">announceDate=#{announceDate},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+</mapper>

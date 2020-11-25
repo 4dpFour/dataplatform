@@ -31,8 +31,11 @@ public class ContractService {
         contractDAO.deleteById(id);
     }
 
-    public void updateUser(Contract contract) {
-        contractDAO.updateContract(contract);
+    public void updateContract(Contract contract) {
+        contractDAO.updateContractById(contract.getId(), contract.getContractNo(), contract.getContractName(),
+                contract.getProjectNo(), contract.getProjectName(), contract.getPurchaser(), contract.getPurchaserTelNo(),
+                contract.getSupplier(), contract.getSupplierTelNo(), contract.getSubjectName(), contract.getSubjectUnitPrice(),
+                contract.getContractValue(), contract.getAnnounceDate());
     }
 
 }

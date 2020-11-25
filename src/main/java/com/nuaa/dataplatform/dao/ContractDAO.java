@@ -4,6 +4,7 @@ import com.nuaa.dataplatform.entity.Contract;
 import com.nuaa.dataplatform.entity.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -30,13 +31,11 @@ public interface ContractDAO {
     List<Contract> selectBySupplier(String supplier);
 
 
-    @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo}," +
-            "contractName=#{contractName},projectNo=#{projectNo},projectName=#{projectName}," +
-            "purchaser=#{purchaser},purchaserTelNo=#{purchaserTelNo},supplier=#{supplier}," +
-            "supplierTelNo=#{supplierTelNo},subjectName=#{subjectName},subjectUnitPrice=#{subjectUnitPrice}" +
-            "contractValue=#{contractValue},announceDate=#{announceDate}" +
-            " where id=#{id}"})
-    void updateContract(Contract contract);
+    void updateContractById(@Param("id") int id, @Param("contractNo") String contractNo, @Param("contractName") String contractName, @Param("projectNo") String projectNo,
+                            @Param("projectName") String projectName, @Param("purchaser") String purchaser, @Param("purchaserTelNo") String purchaserTelNo,
+                            @Param("supplier") String supplier, @Param("supplierTelNo") String supplierTelNo, @Param("subjectName") String subjectName,
+                            @Param("subjectUnitPrice") float subjectUnitPrice, @Param("contractValue") float contractValue, @Param("announceDate") Date announceDate);
+
 
 
     @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo} where id=#{id}"})
