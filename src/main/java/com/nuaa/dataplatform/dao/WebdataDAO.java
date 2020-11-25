@@ -11,7 +11,7 @@ import java.util.List;
 public interface WebdataDAO {
     String TABLE_NAME = "contract";
     String INSERT_FIELDS = " urlId, getDate, contractId ";
-    String SELECT_FIELDS = " id " + INSERT_FIELDS;
+    String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
             ") values (#{urlId},#{getDate},#{contractId})"})
