@@ -19,6 +19,7 @@ public class Contract implements Serializable {
     private float contractValue;
     private Date announceDate;
 
+
     public int getId() {
         return id;
     }
@@ -120,6 +121,41 @@ public class Contract implements Serializable {
     }
 
     public void setAnnounceDate(Date announceDate) {
+        this.announceDate = announceDate;
+    }
+
+    public Contract(int id, String contractNo, String contractName, String projectNo, String projectName,
+                    String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
+                    String subjectName, float subjectUnitPrice, float contractValue, Date announceDate) {
+        this.id = id;
+        this.contractNo = contractNo;
+        this.contractName = contractName;
+        this.projectNo = projectNo;
+        this.projectName = projectName;
+        this.purchaser = purchaser;
+        this.purchaserTelNo = purchaserTelNo;
+        this.supplier = supplier;
+        this.supplierTelNo = supplierTelNo;
+        this.subjectName = subjectName;
+        this.subjectUnitPrice = subjectUnitPrice;
+        this.contractValue = contractValue;
+        this.announceDate = announceDate;
+    }
+
+    public Contract(String contractNo, String contractName, String projectNo, String projectName,
+                    String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
+                    String subjectName, float subjectUnitPrice, float contractValue, Date announceDate) {
+        this.contractNo = contractNo;
+        this.contractName = contractName;
+        this.projectNo = projectNo;
+        this.projectName = projectName;
+        this.purchaser = purchaser;
+        this.purchaserTelNo = purchaserTelNo;
+        this.supplier = supplier;
+        this.supplierTelNo = supplierTelNo;
+        this.subjectName = subjectName;
+        this.subjectUnitPrice = subjectUnitPrice;
+        this.contractValue = contractValue;
         this.announceDate = announceDate;
     }
 }

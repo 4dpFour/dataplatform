@@ -9,8 +9,9 @@ import java.util.List;
 @Mapper
 public interface ContractDAO {
     String TABLE_NAME = "contract";
-    String INSERT_FIELDS = " contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo, supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate ";
-    String SELECT_FIELDS = " id " + INSERT_FIELDS;
+    String INSERT_FIELDS = " contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo, " +
+            "supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate ";
+    String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
             ") values (#{contractNo},#{contractName},#{projectNo},#{projectName},#{purchaser},#{purchaserTelNo},#{supplier},#{supplierTelNo},#{subjectName},#{subjectUnitPrice},#{contractValue},#{announceDate})"})
@@ -28,6 +29,7 @@ public interface ContractDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplier=#{supplier}"})
     List<Contract> selectBySupplier(String supplier);
 
+
     @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo}," +
             "contractName=#{contractName},projectNo=#{projectNo},projectName=#{projectName}," +
             "purchaser=#{purchaser},purchaserTelNo=#{purchaserTelNo},supplier=#{supplier}," +
@@ -35,6 +37,7 @@ public interface ContractDAO {
             "contractValue=#{contractValue},announceDate=#{announceDate}" +
             " where id=#{id}"})
     void updateContract(Contract contract);
+
 
     @Update({"update ", TABLE_NAME, " set contractNo=#{contractNo} where id=#{id}"})
     void updateContractNoById(int id, String contractNo);
