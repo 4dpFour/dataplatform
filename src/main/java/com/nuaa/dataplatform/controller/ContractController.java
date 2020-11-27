@@ -76,6 +76,7 @@ public class ContractController {
                    contractValue, null);
            return Result.success(contract);
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
@@ -128,6 +129,18 @@ public class ContractController {
             contractService.updateContract(contract);
             return Result.success(contract);
         } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure(ResultCode.SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteURL(@PathVariable int id) {
+        try {
+            contractService.deleteContract(id);
+            return Result.success();
+        } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
