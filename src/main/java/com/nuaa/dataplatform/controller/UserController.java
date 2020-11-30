@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 //TODO: 鉴权还没做
 @RestController
@@ -21,10 +22,11 @@ public class UserController {
     private HostHolder hostHolder;
 
     @PostMapping(value = "/login")
-    public Result login(@RequestParam("username") String username,
-                        @RequestParam("password") String password,
+    public Result login(@RequestBody Map<String, String> requestMap,
                         HttpServletResponse response) {
         try {
+            String username = requestMap.get("username");
+            String password = requestMap.get("password");
             if (username.trim().length() == 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "用户名不能为空");
             }
@@ -33,8 +35,10 @@ public class UserController {
                 Cookie cookie = new Cookie("ticket", ticket);
                 cookie.setPath("/");
                 response.addCookie(cookie);
+                return Result.success();
+            } else {
+                return Result.failure(ResultCode.FORBIDDEN, "用户名或密码错误");
             }
-            return Result.success(ticket);
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
@@ -42,11 +46,12 @@ public class UserController {
     }
 
     @PostMapping(value = "/register")
-    public Result register(@RequestParam("username") String username,
-                           @RequestParam("password") String password,
-                           @RequestParam(value = "authority", required=false) Integer authority,
+    public Result register(@RequestBody Map<String, Object> requestMap,
                            HttpServletResponse response) {
         try {
+            String username = (String) requestMap.get("username");
+            String password = (String) requestMap.get("password");
+            Integer authority = (Integer) requestMap.get("authority");
             if (username.trim().length() == 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "用户名不能为空");
             }
@@ -118,13 +123,15 @@ public class UserController {
 
     @PutMapping("/{id}")
     public Result updateUser(@PathVariable int id,
-                            @RequestParam(value = "password", required=false) String password,
-                            @RequestParam(value = "authority", required=false) String authority) {
+                             @RequestBody Map<String, Object> requestMap) {
         try {
+            String password = (String) requestMap.get("password");
+            Integer authority = (Integer) requestMap.get("authority");
+            String careUrls = (String) requestMap.get("urls");
             if (password == null && authority == null) {
                 return Result.failure(ResultCode.BAD_REQUEST, "未输入更新项");
             }
-            userService.updateUserById(id, password, authority);
+            userService.updateUserById(id, password, authority, careUrls);
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();

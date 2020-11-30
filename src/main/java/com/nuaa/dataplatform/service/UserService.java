@@ -26,8 +26,12 @@ public class UserService {
         return userDAO.selectByUsername(username);
     }
 
-    public void updateUserById(int id, String password, String authority) {
-        userDAO.updateUserById(id, password, authority);
+    public void updateUserById(int id, String password, int authority, String careUrls) {
+        userDAO.updateUserById(id, password, authority, careUrls);
+    }
+
+    public void updateCareUrlsById(int id, String urls) {
+        userDAO.updateCareUrlsById(id, urls);
     }
 
     public void deleteUserById(int id) {

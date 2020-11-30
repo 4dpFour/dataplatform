@@ -7,6 +7,7 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="password != null and password != ''">password=#{password},</if>
             <if test="authority != null and authority != ''">authority=#{authority},</if>
+            <if test="careUrls != null and careUrls != ''">careUrls=#{careUrls},</if>
         </trim>
         WHERE id=#{id}
     </update>

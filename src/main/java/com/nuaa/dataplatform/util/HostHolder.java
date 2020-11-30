@@ -6,17 +6,20 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class HostHolder {
-    /*【线程本地变量】每条线程只会存储(setUser)、获得(getUser)自己的变量，用于 passport 保存当前用户的信息*/
+    /** 用线程本地变量保存当前用户的信息 */
     private static ThreadLocal<User> users = new ThreadLocal<User>();
 
+    /** 获取当前用户 */
     public User getUser() {
         return users.get();
     }
 
+    /** 设置当前用户 */
     public void setUser(User user) {
         users.set(user);
     }
 
+    /** 清除当前用户 */
     public void clear() {
         users.remove();;
     }

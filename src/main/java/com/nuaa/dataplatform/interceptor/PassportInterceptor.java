@@ -16,7 +16,6 @@ public class PassportInterceptor implements HandlerInterceptor {
 
     @Autowired
     private HostHolder hostHolder;
-
     @Autowired
     private UserService userService;
 
@@ -34,7 +33,7 @@ public class PassportInterceptor implements HandlerInterceptor {
         //验证 ticket 是否有效
         try {
             if (ticket != null) {
-                User user = (User) userService.verifyTicket(ticket);
+                User user = userService.verifyTicket(ticket);    //user已经是最新的
                 hostHolder.setUser(user);    //设定线程本地变量中的 user，方便鉴权
             }
         } catch (Exception e) {

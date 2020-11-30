@@ -7,6 +7,7 @@ public class User implements Serializable {
     private String username;
     private String password;
     private int authority;
+    private String careUrls;
 
     public int getId() {
         return id;
@@ -38,6 +39,14 @@ public class User implements Serializable {
 
     public void setAuthority(int authority) {
         this.authority = authority;
+    }
+
+    public String getCareUrls() {
+        return careUrls;
+    }
+
+    public void setCareUrls(String careUrls) {
+        this.careUrls = careUrls;
     }
 
     public User() {}
