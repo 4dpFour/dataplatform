@@ -60,7 +60,7 @@ public class URLController {
             if (address == null || address.length() == 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "address 为空");
             }
-            URL url = urlService.addURL(name, address, hostHolder.getUser().getId());
+            URL url = urlService.addURL(name, address);
             return Result.success(url);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class URLController {
                             @RequestParam(value = "name", required=false) String name,
                             @RequestParam(value = "address", required=false) String address) {
         try {
-            urlService.updateURL(id, name, address, hostHolder.getUser().getId());
+            urlService.updateURL(id, name, address);
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();

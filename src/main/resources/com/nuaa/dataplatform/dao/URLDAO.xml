@@ -9,7 +9,6 @@
         <trim prefix="set" suffixOverrides=",">
             <if test="name != null and name != ''">name=#{name},</if>
             <if test="address != null and address != ''">address=#{address},</if>
-            <if test="lastAuthorId != null and lastAuthorId > 0">lastAuthorId=#{lastAuthorId},</if>
         </trim>
         WHERE id=#{id}
     </update>

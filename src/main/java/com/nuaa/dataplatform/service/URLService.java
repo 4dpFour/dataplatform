@@ -21,8 +21,8 @@ public class URLService {
         return urlDAO.selectByOffset(offset, limit);
     }
 
-    public URL addURL(String name, String address, int initAuthorId) {
-        URL url = new URL(name, address, initAuthorId);
+    public URL addURL(String name, String address) {
+        URL url = new URL(name, address);
         urlDAO.addURL(url);
         return url;
     }
@@ -31,7 +31,7 @@ public class URLService {
         urlDAO.deleteById(id);
     }
 
-    public void updateURL(int id, String name, String address, int lastAuthorId) {
-        urlDAO.updateURLById(id, name, address, lastAuthorId);
+    public void updateURL(int id, String name, String address) {
+        urlDAO.updateURLById(id, name, address);
     }
 }
