@@ -76,24 +76,25 @@ public class ContractController {
                    contractValue, null);
            return Result.success(contract);
         } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
 
     @PutMapping("/{id}")
     public Result updateContract(@PathVariable(value = "id") int id,
-                                 @RequestParam(value = "contractNo") String contractNo,
-                                 @RequestParam(value = "contractName") String contractName,
-                                 @RequestParam(value = "projectNo") String projectNo,
-                                 @RequestParam(value = "projectName") String projectName,
-                                 @RequestParam(value = "purchaser") String purchaser,
-                                 @RequestParam(value = "purchaserTelNo") String purchaserTelNo,
-                                 @RequestParam(value = "supplier") String supplier,
-                                 @RequestParam(value = "supplierTelNo") String supplierTelNo,
+                                 @RequestParam(value = "contractNo", required = false) String contractNo,
+                                 @RequestParam(value = "contractName", required = false) String contractName,
+                                 @RequestParam(value = "projectNo", required = false) String projectNo,
+                                 @RequestParam(value = "projectName", required = false) String projectName,
+                                 @RequestParam(value = "purchaser", required = false) String purchaser,
+                                 @RequestParam(value = "purchaserTelNo", required = false) String purchaserTelNo,
+                                 @RequestParam(value = "supplier", required = false) String supplier,
+                                 @RequestParam(value = "supplierTelNo", required = false) String supplierTelNo,
                                  @RequestParam(value = "subjectName", required = false) String subjectName,
                                  @RequestParam(value = "subjectUnitPrice", required = false) float subjectUnitPrice,
-                                 @RequestParam(value = "contractValue") float contractValue,
-                                 @RequestParam(value = "announceDate") Date announceDate) {
+                                 @RequestParam(value = "contractValue", required = false) float contractValue,
+                                 @RequestParam(value = "announceDate", required = false) Date announceDate) {
         try {
             if (id <= 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "id 不合法");
@@ -128,6 +129,18 @@ public class ContractController {
             contractService.updateContract(contract);
             return Result.success(contract);
         } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure(ResultCode.SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public Result deleteURL(@PathVariable int id) {
+        try {
+            contractService.deleteContract(id);
+            return Result.success();
+        } catch (Exception e) {
+            e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
