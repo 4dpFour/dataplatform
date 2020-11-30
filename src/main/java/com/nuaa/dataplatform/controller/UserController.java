@@ -30,6 +30,10 @@ public class UserController {
             if (username.trim().length() == 0) {
                 return Result.failure(ResultCode.FORBIDDEN, "用户名不能为空");
             }
+            User currentUser = hostHolder.getUser();
+            if (currentUser != null) {
+                return Result.failure(ResultCode.FORBIDDEN, "用户" + currentUser.getUsername() + "已经登陆");
+            }
             String ticket = userService.login(username, password);
             if (ticket != null && ticket.length() > 0) {
                 Cookie cookie = new Cookie("ticket", ticket);
@@ -72,7 +76,7 @@ public class UserController {
                 cookie.setPath("/");
                 response.addCookie(cookie);
             }
-            return Result.success(ticket);
+            return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);

@@ -35,6 +35,7 @@ public class UserService {
     }
 
     public void deleteUserById(int id) {
+        loginTicketDAO.deleteByUserId(id);
         userDAO.deleteById(id);
     }
 
