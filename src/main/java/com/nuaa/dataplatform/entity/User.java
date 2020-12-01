@@ -56,4 +56,11 @@ public class User implements Serializable {
         this.password = password;
         this.authority = authority;
     }
+
+    public User(String username, String password, int authority, String careUrls) {
+        this.username = username;
+        this.password = password;
+        this.authority = authority;
+        this.careUrls = careUrls;
+    }
 }

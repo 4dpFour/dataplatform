@@ -8,8 +8,8 @@ import java.util.List;
 @Mapper
 public interface UserDAO {
     String TABLE_NAME = "user";
-    String INSERT_FIELDS = " username, password, authority, careUrls ";
-    String SELECT_FIELDS = " id, " + INSERT_FIELDS;
+    String INSERT_FIELDS = " username, password, authority ";
+    String SELECT_FIELDS = " id, username, password, authority, careUrls ";
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
             ") values (#{username},#{password},#{authority})"})

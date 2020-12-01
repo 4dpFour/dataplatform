@@ -20,7 +20,7 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
-    @PostMapping(value = "/login")
+    @PostMapping("/login")
     public Result login(@RequestBody Map<String, String> requestMap,
                         HttpServletResponse response) {
         try {
@@ -49,7 +49,7 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/register")
+    @PostMapping("/register")
     public Result register(@RequestBody Map<String, Object> requestMap,
                            HttpServletResponse response) {
         try {
@@ -84,7 +84,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = {"/logout"})
+    @GetMapping("/logout")
     public Result logout(@CookieValue("ticket") String ticket) {
         try {
             if (userService.logout(ticket)) {
@@ -144,7 +144,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(path = {"/current"})
+    @GetMapping("/current")
     public Result getCurrentUser() {
         try {
             User user = hostHolder.getUser();
