@@ -37,8 +37,8 @@ public class UserController {
             if (ticket != null && ticket.length() > 0) {
                 Cookie cookie = new Cookie("ticket", ticket);
                 cookie.setPath("/");
-                response.addCookie(cookie);
                 cookie.setMaxAge(3600*24*30);    //cookie有效期设置一个月
+                response.addCookie(cookie);
                 return Result.success();
             } else {
                 return Result.failure(ResultCode.FORBIDDEN, "用户名或密码错误");
@@ -74,8 +74,8 @@ public class UserController {
             if (ticket != null && ticket.length() > 0) {
                 Cookie cookie = new Cookie("ticket", ticket);
                 cookie.setPath("/");
-                response.addCookie(cookie);
                 cookie.setMaxAge(3600*24*30);    //cookie有效期设置一个月
+                response.addCookie(cookie);
             }
             return Result.success();
         } catch (Exception e) {
