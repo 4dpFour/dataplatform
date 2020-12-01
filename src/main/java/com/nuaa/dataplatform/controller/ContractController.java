@@ -25,6 +25,7 @@ public class ContractController {
     public Result crawlContracts() {
         try {
             //TODO: 给爷爬
+            return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);

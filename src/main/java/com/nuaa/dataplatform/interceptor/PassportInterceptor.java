@@ -20,10 +20,10 @@ public class PassportInterceptor implements HandlerInterceptor {
     private UserService userService;
 
     @Override
-    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String ticket = null;
-        if (httpServletRequest.getCookies() != null) {
-            for (Cookie cookie : httpServletRequest.getCookies()) {
+        if (request.getCookies() != null) {
+            for (Cookie cookie : request.getCookies()) {
                 if (cookie.getName().equals("ticket")) {    //如果检测到含有 ticket，赋值给上面的 ticket 变量
                     ticket = cookie.getValue();
                     break;
@@ -43,7 +43,7 @@ public class PassportInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) throws Exception {
         hostHolder.clear();    //结束时清除刚才保存的用户
     }
 

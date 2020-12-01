@@ -11,7 +11,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-//TODO: 鉴权还没做
 @RestController
 @RequestMapping("/user")
 public class UserController {
