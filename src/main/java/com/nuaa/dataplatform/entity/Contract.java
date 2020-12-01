@@ -16,10 +16,8 @@ public class Contract implements Serializable {
     private String supplier;
     private String supplierTelNo;
     private String subjectName;
-    private float subjectUnitPrice;
-    private float contractValue;
-    private Date announceDate;
-
+    private String contractValue;
+    private String announceDate;
 
     public int getId() {
         return id;
@@ -109,37 +107,26 @@ public class Contract implements Serializable {
         this.subjectName = subjectName;
     }
 
-    public float getSubjectUnitPrice() {
-        return subjectUnitPrice;
-    }
-
-    public void setSubjectUnitPrice(float subjectUnitPrice) {
-        this.subjectUnitPrice = subjectUnitPrice;
-    }
-
-    public float getContractValue() {
+    public String getContractValue() {
         return contractValue;
     }
 
-    public void setContractValue(float contractValue) {
+    public void setContractValue(String contractValue) {
         this.contractValue = contractValue;
     }
 
-    public Date getAnnounceDate() {
+    public String getAnnounceDate() {
         return announceDate;
     }
 
-    public void setAnnounceDate(Date announceDate) {
+    public void setAnnounceDate(String announceDate) {
         this.announceDate = announceDate;
     }
 
     public Contract() {
     }
 
-    public Contract(int id, String url, String contractNo, String contractName, String projectNo, String projectName,
-                    String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
-                    String subjectName, float subjectUnitPrice, float contractValue, Date announceDate) {
-        this.id = id;
+    public Contract(String url, String contractNo, String contractName, String projectNo, String projectName, String purchaser, String purchaserTelNo, String supplier, String supplierTelNo, String subjectName, String contractValue, String announceDate) {
         this.url = url;
         this.contractNo = contractNo;
         this.contractName = contractName;
@@ -150,25 +137,6 @@ public class Contract implements Serializable {
         this.supplier = supplier;
         this.supplierTelNo = supplierTelNo;
         this.subjectName = subjectName;
-        this.subjectUnitPrice = subjectUnitPrice;
-        this.contractValue = contractValue;
-        this.announceDate = announceDate;
-    }
-
-    public Contract(String url, String contractNo, String contractName, String projectNo, String projectName,
-                    String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
-                    String subjectName, float subjectUnitPrice, float contractValue, Date announceDate) {
-        this.url = url;
-        this.contractNo = contractNo;
-        this.contractName = contractName;
-        this.projectNo = projectNo;
-        this.projectName = projectName;
-        this.purchaser = purchaser;
-        this.purchaserTelNo = purchaserTelNo;
-        this.supplier = supplier;
-        this.supplierTelNo = supplierTelNo;
-        this.subjectName = subjectName;
-        this.subjectUnitPrice = subjectUnitPrice;
         this.contractValue = contractValue;
         this.announceDate = announceDate;
     }

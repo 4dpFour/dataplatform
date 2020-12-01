@@ -15,7 +15,6 @@
             <if test="supplier != null and supplier != ''">supplier=#{supplier},</if>
             <if test="supplierTelNo != null and supplierTelNo != ''">supplierTelNo=#{supplierTelNo},</if>
             <if test="subjectName != null and subjectName != ''">subjectName=#{subjectName},</if>
-            <if test="subjectUnitPrice != null and subjectUnitPrice != ''">subjectUnitPrice=#{subjectUnitPrice},</if>
             <if test="contractValue != null and contractValue != ''">contractValue=#{contractValue},</if>
             <if test="announceDate != null and announceDate != ''">announceDate=#{announceDate},</if>
         </trim>
