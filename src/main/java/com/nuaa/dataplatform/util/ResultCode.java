@@ -1,8 +1,8 @@
 package com.nuaa.dataplatform.util;
 
 public enum ResultCode {
+    /** 添加新的状态码只要往这儿添加即可 */
     SUCCESS(200, "OK"),
-    CREATED(201, "Created"),
 
     BAD_REQUEST(400, "Bad request"),
     FORBIDDEN(403, "Forbidden"),

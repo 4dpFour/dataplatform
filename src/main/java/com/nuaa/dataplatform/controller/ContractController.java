@@ -2,6 +2,7 @@ package com.nuaa.dataplatform.controller;
 
 import com.nuaa.dataplatform.entity.Contract;
 import com.nuaa.dataplatform.service.ContractService;
+import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
 import com.nuaa.dataplatform.util.ResultCode;
 import org.apache.ibatis.annotations.Update;
@@ -17,11 +18,38 @@ public class ContractController {
 
     @Autowired
     private ContractService contractService;
+    @Autowired
+    private HostHolder hostHolder;
+
+    @GetMapping("/crawl")
+    public Result crawlContracts() {
+        try {
+            //TODO: 给爷爬
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure(ResultCode.SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/list")
+    public Result listContracts(@RequestParam(name = "query", required = false) String query) {
+        try {
+            if (query == null || query.length() == 0) {
+                //TODO: 查询串为空，则返回所有用户关心的contract    (如请求：http://localhost:8080/url/list)
+            } else {
+                //TODO: 查询串不为空，则解析关键词    (如请求：http://localhost:8080/url/list?query=磁光克尔 得视微纳 哈尔滨工业大学)
+            }
+            return Result.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure(ResultCode.SERVER_ERROR);
+        }
+    }
 
     @GetMapping("/{id}")
-    public Result getContractNo(@PathVariable int id) {
+    public Result getContractById(@PathVariable int id) {
         try {
-            Contract contract = contractService.getContract(id);
+            Contract contract = contractService.getContractById(id);
             if (contract != null) {
                 return Result.success(contract);
             } else {
@@ -32,7 +60,10 @@ public class ContractController {
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
+}
 
+
+/*  合同的添加和更新只能通过爬虫，不应该写成接口。
     @PostMapping()
     public Result addContract(@RequestParam(value = "contractNo") String contractNo,
                               @RequestParam(value = "contractName") String contractName,
@@ -45,7 +76,7 @@ public class ContractController {
                               @RequestParam(value = "subjectName") String subjectName,
                               @RequestParam(value = "subjectUnitPrice") float subjectUnitPrice,
                               @RequestParam(value = "contractValue") float contractValue
-                              /*@RequestParam(value = "announceDate") Date announceDate*/) {
+                              @RequestParam(value = "announceDate") Date announceDate) {
         try {
            if (contractNo == null || contractNo.length() == 0) {
                return Result.failure(ResultCode.FORBIDDEN, "contractNo 为空");
@@ -133,16 +164,4 @@ public class ContractController {
             return Result.failure(ResultCode.SERVER_ERROR);
         }
     }
-
-    @DeleteMapping("/{id}")
-    public Result deleteURL(@PathVariable int id) {
-        try {
-            contractService.deleteContract(id);
-            return Result.success();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
-        }
-    }
-
-}
+*/

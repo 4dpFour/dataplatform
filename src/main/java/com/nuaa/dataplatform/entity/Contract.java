@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Contract implements Serializable {
     private int id;
+    private String url;
     private String contractNo;
     private String contractName;
     private String projectNo;
@@ -26,6 +27,14 @@ public class Contract implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getContractNo() {
@@ -124,10 +133,14 @@ public class Contract implements Serializable {
         this.announceDate = announceDate;
     }
 
-    public Contract(int id, String contractNo, String contractName, String projectNo, String projectName,
+    public Contract() {
+    }
+
+    public Contract(int id, String url, String contractNo, String contractName, String projectNo, String projectName,
                     String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
                     String subjectName, float subjectUnitPrice, float contractValue, Date announceDate) {
         this.id = id;
+        this.url = url;
         this.contractNo = contractNo;
         this.contractName = contractName;
         this.projectNo = projectNo;
@@ -142,9 +155,10 @@ public class Contract implements Serializable {
         this.announceDate = announceDate;
     }
 
-    public Contract(String contractNo, String contractName, String projectNo, String projectName,
+    public Contract(String url, String contractNo, String contractName, String projectNo, String projectName,
                     String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
                     String subjectName, float subjectUnitPrice, float contractValue, Date announceDate) {
+        this.url = url;
         this.contractNo = contractNo;
         this.contractName = contractName;
         this.projectNo = projectNo;
@@ -157,8 +171,5 @@ public class Contract implements Serializable {
         this.subjectUnitPrice = subjectUnitPrice;
         this.contractValue = contractValue;
         this.announceDate = announceDate;
-    }
-
-    public Contract() {
     }
 }
