@@ -58,6 +58,10 @@ public class UserService {
         if (ticket == null || ticket.length() == 0) {
             return false;
         }
+        LoginTicket loginTicket = loginTicketDAO.selectByTicket(ticket);
+        if (loginTicket.getStatus() == 1) {
+            return false;
+        }
         loginTicketDAO.updateStatus(ticket, 1);    //登出只要前端传回来一个票，这里把 ticket 设置为无效即可
         return true;
     }

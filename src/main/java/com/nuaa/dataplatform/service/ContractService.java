@@ -64,7 +64,10 @@ public class ContractService {
         ArrayList<Contract> contracts = new ArrayList<>();
         //给爷一个个爬
         for (String url : urls) {
-            if (url.equals(URL_CCGP)) {
+            if (url.length() > 0 && url.charAt(url.length() - 1) == '/') {
+                url = url.substring(0, url.length() - 1);
+            }
+            if (url.equals(URL_CCGP) ) {
                 contracts.addAll(crawlCcgp(URL_CCGP, DEFAULT_PAGE_LIMIT));
             }
             //TODO: more urls to be supported.
