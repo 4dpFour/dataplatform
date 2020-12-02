@@ -23,8 +23,8 @@ public class URLController {
     public Result getCareURLs() {
         try {
             User user = hostHolder.getUser();
-            String urls = user.getCareUrls();
-            if (urls != null && urls.length() > 0) {
+            String[] urls = user.getUrlsArray();
+            if (urls != null && urls.length > 0) {
                 return Result.success(urls);
             } else {
                 return Result.failure(ResultCode.NOT_FOUND);

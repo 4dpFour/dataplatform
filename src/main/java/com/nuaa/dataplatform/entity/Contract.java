@@ -16,6 +16,7 @@ public class Contract implements Serializable {
     private String supplier;
     private String supplierTelNo;
     private String subjectName;
+    private String subjectUnitPrice;
     private String contractValue;
     private String announceDate;
 
@@ -107,6 +108,14 @@ public class Contract implements Serializable {
         this.subjectName = subjectName;
     }
 
+    public String getSubjectUnitPrice() {
+        return subjectUnitPrice;
+    }
+
+    public void setSubjectUnitPrice(String subjectUnitPrice) {
+        this.subjectUnitPrice = subjectUnitPrice;
+    }
+
     public String getContractValue() {
         return contractValue;
     }
@@ -126,7 +135,7 @@ public class Contract implements Serializable {
     public Contract() {
     }
 
-    public Contract(String url, String contractNo, String contractName, String projectNo, String projectName, String purchaser, String purchaserTelNo, String supplier, String supplierTelNo, String subjectName, String contractValue, String announceDate) {
+    public Contract(String url, String contractNo, String contractName, String projectNo, String projectName, String purchaser, String purchaserTelNo, String supplier, String supplierTelNo, String subjectName, String subjectUnitPrice, String contractValue, String announceDate) {
         this.url = url;
         this.contractNo = contractNo;
         this.contractName = contractName;
@@ -137,6 +146,7 @@ public class Contract implements Serializable {
         this.supplier = supplier;
         this.supplierTelNo = supplierTelNo;
         this.subjectName = subjectName;
+        this.subjectUnitPrice = subjectUnitPrice;
         this.contractValue = contractValue;
         this.announceDate = announceDate;
     }

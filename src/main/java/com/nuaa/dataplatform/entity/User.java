@@ -63,4 +63,13 @@ public class User implements Serializable {
         this.authority = authority;
         this.careUrls = careUrls;
     }
+
+    public String[] getUrlsArray() {
+        String urls = this.careUrls.substring(1, careUrls.length() - 1);
+        String[] urlArray = urls.split(",");
+        for (int i = 0; i <  urlArray.length; i++) {
+            urlArray[i] = urlArray[i].trim();
+        }
+        return urlArray;
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 
 @RestController
@@ -24,8 +25,11 @@ public class ContractController {
     @GetMapping("/crawl")
     public Result crawlContracts() {
         try {
-            //TODO: 给爷爬
-            return Result.success();
+            if (contractService.crawl(hostHolder.getUser().getUrlsArray())) {
+                return Result.success();
+            } else {
+                return Result.failure(ResultCode.NOT_FOUND, "没爬到任何数据");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
@@ -35,12 +39,19 @@ public class ContractController {
     @GetMapping("/list")
     public Result listContracts(@RequestParam(name = "query", required = false) String query) {
         try {
+            List<Contract> contracts;
             if (query == null || query.length() == 0) {
-                //TODO: 查询串为空，则返回所有用户关心的contract    (如请求：http://localhost:8080/url/list)
+                contracts = contractService.getContractsByUrls(hostHolder.getUser().getUrlsArray());
             } else {
+                contracts = null;
                 //TODO: 查询串不为空，则解析关键词    (如请求：http://localhost:8080/url/list?query=磁光克尔 得视微纳 哈尔滨工业大学)
             }
-            return Result.success();
+
+            if (contracts != null && contracts.size() > 0) {
+                return Result.success(contracts);
+            } else {
+                return Result.failure(ResultCode.NOT_FOUND);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return Result.failure(ResultCode.SERVER_ERROR);
