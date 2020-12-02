@@ -35,6 +35,9 @@ public class ContractService {
     public List<Contract> getContractsByUrls(String[] urls) {
         ArrayList<Contract> contracts = new ArrayList<>();
         for (String url : urls) {
+            if (url.length() > 0 && url.charAt(url.length() - 1) == '/') {
+                url = url.substring(0, url.length() - 1);
+            }
             contracts.addAll(contractDAO.selectByUrl(url));
         }
         return contracts;
