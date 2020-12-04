@@ -18,13 +18,13 @@ public interface ContractDAO {
             ") values (#{url},#{contractNo},#{contractName},#{projectNo},#{projectName},#{purchaser},#{purchaserTelNo},#{supplier},#{supplierTelNo},#{subjectName},#{subjectUnitPrice},#{contractValue},#{announceDate})"})
     int addContract(Contract contract);
 
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where (url like Concat('%', :str, '%')) or " +
-            "(contractNo like Concat('%', :str, '%')) or (contractName like Concat('%', :str, '%')) or " +
-            "(projectNo like Concat('%', :str, '%')) or (projectName like Concat('%', :str, '%')) or " +
-            "(purchaser like Concat('%', :str, '%')) or (purchaserTelNo like Concat('%', :str, '%')) or " +
-            "(supplier like Concat('%', :str, '%')) or (supplierTelNo like Concat('%', :str, '%')) or " +
-            "(subjectName like Concat('%', :str, '%')) or (subjectUnitPrice like Concat('%', :str, '%')) or " +
-            "(contractValue like Concat('%', :str, '%')) or (announceDate like Concat('%', :str, '%'))"})
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where (url like CONCAT('%', #{str}, '%')) or " +
+            "(contractNo like CONCAT('%', #{str}, '%')) or (contractName like CONCAT('%', #{str}, '%')) or " +
+            "(projectNo like CONCAT('%', #{str}, '%')) or (projectName like CONCAT('%', #{str}, '%')) or " +
+            "(purchaser like CONCAT('%', #{str}, '%')) or (purchaserTelNo like CONCAT('%', #{str}, '%')) or " +
+            "(supplier like CONCAT('%', #{str}, '%')) or (supplierTelNo like CONCAT('%', #{str}, '%')) or " +
+            "(subjectName like CONCAT('%', #{str}, '%')) or (subjectUnitPrice like CONCAT('%', #{str}, '%')) or " +
+            "(contractValue like CONCAT('%', #{str}, '%')) or (announceDate like CONCAT('%', #{str}, '%'))"})
     List<Contract> dimSelect(String str);
 /*
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where contractNo like Concat('%', :contractNo, '%')"})
