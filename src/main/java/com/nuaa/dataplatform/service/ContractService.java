@@ -64,7 +64,7 @@ public class ContractService {
                 contract.getSupplier(), contract.getSupplierTelNo(), contract.getSubjectName(), contract.getSubjectUnitPrice(), contract.getContractValue(), contract.getAnnounceDate());
     }
 
-    public boolean crawl(String[] urls) throws IOException {
+    public int crawl(String[] urls) throws IOException {
         ArrayList<Contract> contracts = new ArrayList<>();
         urls = trimUrls(urls);
         //给爷一个个爬
@@ -75,13 +75,13 @@ public class ContractService {
             //TODO: more urls to be supported.
         }
         if (contracts.size() == 0) {
-            return false;
+            return 0;
         }
         //根据发布的顺序写入数据库(越新的放越后面)
         for (int i = contracts.size() - 1; i >= 0; i--) {
             contractDAO.addContract(contracts.get(i));
         }
-        return true;
+        return contracts.size();
     }
 
     public ArrayList<Contract> crawlCcgp(String url, int pageLimit) throws IOException {

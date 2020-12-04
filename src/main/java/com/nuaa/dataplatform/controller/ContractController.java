@@ -5,12 +5,12 @@ import com.nuaa.dataplatform.service.ContractService;
 import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
 import com.nuaa.dataplatform.util.ResultCode;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -25,8 +25,11 @@ public class ContractController {
     @GetMapping("/crawl")
     public Result crawlContracts() {
         try {
-            if (contractService.crawl(hostHolder.getUser().getUrlsArray())) {
-                return Result.success();
+            int increment = contractService.crawl(hostHolder.getUser().getUrlsArray());
+            if (increment > 0) {
+                HashMap<String, Integer> resultMap = new HashMap<>();
+                resultMap.put("increment", increment);
+                return Result.success(resultMap);
             } else {
                 return Result.failure(ResultCode.NOT_FOUND, "没爬到任何数据");
             }
@@ -44,7 +47,6 @@ public class ContractController {
                 contracts = contractService.getContractsByUrls(hostHolder.getUser().getUrlsArray());
             } else {
                 contracts = contractService.dimSelect(query, hostHolder.getUser().getUrlsArray());
-                //TODO: 查询串不为空，则解析关键词    (如请求：http://localhost:8080/contract/list?query=磁光克尔 得视微纳 哈尔滨工业大学)
             }
             if (contracts != null && contracts.size() > 0) {
                 return Result.success(contracts);
