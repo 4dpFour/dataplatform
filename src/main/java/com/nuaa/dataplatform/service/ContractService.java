@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -127,15 +128,23 @@ public class ContractService {
         return str.split("：", -1)[1].trim();
     }
 
-    public ArrayList<Contract> dimSelect(String query) {
+    public ArrayList<Contract> dimSelect(String query, String[] careUrls) {
         ArrayList<Contract> contracts = new ArrayList<>();
         String[] querys = query.split(" ");
+        List<String> urls = Arrays.asList(careUrls);
         if (!query.isEmpty()) {
             for(String str:querys) {
                 List<Contract> temp;
+                ArrayList<Contract> temp2 = new ArrayList<>();
                 temp = contractDAO.dimSelect(str);
-                if (temp != null && temp.size() != 0) {
-                    contracts.addAll(temp);
+                for(Contract contract:temp) {
+                    if(urls.contains(contract.getUrl())) {
+                        temp2.add(contract);
+                    }
+                }
+                if (temp.size() != 0) {
+                    contracts.addAll(temp2);
+                    temp2.clear();
                 }
                 /*
                 if (temp != null && temp.size() != 0) {

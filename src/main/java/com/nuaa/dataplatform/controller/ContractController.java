@@ -43,7 +43,7 @@ public class ContractController {
             if (query == null || query.length() == 0) {
                 contracts = contractService.getContractsByUrls(hostHolder.getUser().getUrlsArray());
             } else {
-                contracts = contractService.dimSelect(query);
+                contracts = contractService.dimSelect(query, hostHolder.getUser().getUrlsArray());
                 //TODO: 查询串不为空，则解析关键词    (如请求：http://localhost:8080/contract/list?query=磁光克尔 得视微纳 哈尔滨工业大学)
             }
             if (contracts != null && contracts.size() > 0) {
