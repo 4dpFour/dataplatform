@@ -132,6 +132,21 @@ public class ContractService {
         String[] querys = query.split(" ");
         if (!query.isEmpty()) {
             for(String str:querys) {
+                List<Contract> temp;
+                temp = contractDAO.dimSelect(str);
+                if (temp != null && temp.size() != 0) {
+                    contracts.addAll(temp);
+                }
+                /*
+                if (temp != null && temp.size() != 0) {
+                    contracts.addAll(temp);
+                }
+                temp = contractDAO.selectByDimContractNo(str);
+                if (temp != null && temp.size() != 0) {
+                    contracts.addAll(temp);
+                }
+                temp = contractDAO.selectByDimContractNo(str);
+                temp = contractDAO.selectByDimContractName(str);
                 contracts.add(contractDAO.selectByDimUrl(str));
                 contracts.add(contractDAO.selectByDimContractNo(str));
                 contracts.add(contractDAO.selectByDimContractName(str));
@@ -145,6 +160,8 @@ public class ContractService {
                 contracts.add(contractDAO.selectByDimSubjectUnitPrice(str));
                 contracts.add(contractDAO.selectByDimContractValue(str));
                 contracts.add(contractDAO.selectByDimAnnounceDate(str));
+
+                 */
             }
         }
         return contracts;
