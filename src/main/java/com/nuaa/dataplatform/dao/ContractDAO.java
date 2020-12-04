@@ -26,44 +26,7 @@ public interface ContractDAO {
             "(subjectName like CONCAT('%', #{str}, '%')) or (subjectUnitPrice like CONCAT('%', #{str}, '%')) or " +
             "(contractValue like CONCAT('%', #{str}, '%')) or (announceDate like CONCAT('%', #{str}, '%'))"})
     List<Contract> dimSelect(String str);
-/*
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where contractNo like Concat('%', :contractNo, '%')"})
-    List<Contract> selectByDimContractNo(String contractNo);
 
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where contractName like Concat('%', :contractName, '%')"})
-    List<Contract> selectByDimContractName(String contractName);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where projectNo like Concat('%', :projectNo, '%')"})
-    List<Contract> selectByDimProjectNo(String projectNo);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where projectName like #{projectName} Concat('%', :projectName, '%')"})
-    List<Contract> selectByDimProjectName(String projectName);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where purchaser like Concat('%', :purchaser, '%')"})
-    List<Contract> selectByDimPurchaser(String purchaser);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where purchaserTelNo like Concat('%', :purchaserTelNo, '%')"})
-    List<Contract> selectByDimPurchaserTelNo(String purchaserTelNo);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplier like Concat('%', :supplier, '%')"})
-    List<Contract> selectByDimSupplier(String supplier);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplierTelNo like Concat('%', :supplierTelNo, '%')"})
-    List<Contract> selectByDimSupplierTelNo(String supplierTelNo);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where subjectName like Concat('%', :subjectName, '%')"})
-    List<Contract> selectByDimSubjectName(String subjectName);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where subjectUnitPrice like Concat('%', :subjectUnitPrice, '%')"})
-    List<Contract> selectByDimSubjectUnitPrice(String subjectUnitPrice);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where contractValue like Concat('%', :contractValue, '%')"})
-    List<Contract> selectByDimContractValue(String contractValue);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where announceDate like Concat('%', :announceDate, '%')"})
-    List<Contract> selectByDimAnnounceDate(String announceDate);
-
- */
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
     Contract selectById(int id);
 

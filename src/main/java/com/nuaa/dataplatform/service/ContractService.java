@@ -145,31 +145,6 @@ public class ContractService {
                     contracts.addAll(temp2);
                     temp2.clear();
                 }
-                /*
-                if (temp != null && temp.size() != 0) {
-                    contracts.addAll(temp);
-                }
-                temp = contractDAO.selectByDimContractNo(str);
-                if (temp != null && temp.size() != 0) {
-                    contracts.addAll(temp);
-                }
-                temp = contractDAO.selectByDimContractNo(str);
-                temp = contractDAO.selectByDimContractName(str);
-                contracts.add(contractDAO.selectByDimUrl(str));
-                contracts.add(contractDAO.selectByDimContractNo(str));
-                contracts.add(contractDAO.selectByDimContractName(str));
-                contracts.add(contractDAO.selectByDimProjectNo(str));
-                contracts.add(contractDAO.selectByDimProjectName(str));
-                contracts.add(contractDAO.selectByDimPurchaser(str));
-                contracts.add(contractDAO.selectByDimPurchaserTelNo(str));
-                contracts.add(contractDAO.selectByDimSupplier(str));
-                contracts.add(contractDAO.selectByDimSupplierTelNo(str));
-                contracts.add(contractDAO.selectByDimSubjectName(str));
-                contracts.add(contractDAO.selectByDimSubjectUnitPrice(str));
-                contracts.add(contractDAO.selectByDimContractValue(str));
-                contracts.add(contractDAO.selectByDimAnnounceDate(str));
-
-                 */
             }
         }
         return contracts;
