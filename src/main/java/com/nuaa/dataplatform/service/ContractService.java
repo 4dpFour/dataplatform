@@ -126,4 +126,27 @@ public class ContractService {
     public String splitAndTrim(String str) {
         return str.split("：", -1)[1].trim();
     }
+
+    public ArrayList<Contract> dimSelect(String query) {
+        ArrayList<Contract> contracts = new ArrayList<>();
+        String[] querys = query.split(" ");
+        if (!query.isEmpty()) {
+            for(String str:querys) {
+                contracts.add(contractDAO.selectByDimUrl(str));
+                contracts.add(contractDAO.selectByDimContractNo(str));
+                contracts.add(contractDAO.selectByDimContractName(str));
+                contracts.add(contractDAO.selectByDimProjectNo(str));
+                contracts.add(contractDAO.selectByDimProjectName(str));
+                contracts.add(contractDAO.selectByDimPurchaser(str));
+                contracts.add(contractDAO.selectByDimPurchaserTelNo(str));
+                contracts.add(contractDAO.selectByDimSupplier(str));
+                contracts.add(contractDAO.selectByDimSupplierTelNo(str));
+                contracts.add(contractDAO.selectByDimSubjectName(str));
+                contracts.add(contractDAO.selectByDimSubjectUnitPrice(str));
+                contracts.add(contractDAO.selectByDimContractValue(str));
+                contracts.add(contractDAO.selectByDimAnnounceDate(str));
+            }
+        }
+        return contracts;
+    }
 }
