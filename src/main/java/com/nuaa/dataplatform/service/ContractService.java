@@ -66,11 +66,9 @@ public class ContractService {
 
     public boolean crawl(String[] urls) throws IOException {
         ArrayList<Contract> contracts = new ArrayList<>();
+        urls = trimUrls(urls);
         //给爷一个个爬
         for (String url : urls) {
-            if (url.length() > 0 && url.charAt(url.length() - 1) == '/') {
-                url = url.substring(0, url.length() - 1);
-            }
             if (url.equals(URL_CCGP) ) {
                 contracts.addAll(crawlCcgp(URL_CCGP, DEFAULT_PAGE_LIMIT));
             }
@@ -129,11 +127,12 @@ public class ContractService {
     }
 
     public ArrayList<Contract> dimSelect(String query, String[] careUrls) {
+        careUrls = trimUrls(careUrls);
         ArrayList<Contract> contracts = new ArrayList<>();
         String[] querys = query.split(" ");
         List<String> urls = Arrays.asList(careUrls);
         if (!query.isEmpty()) {
-            for(String str:querys) {
+            for(String str : querys) {
                 List<Contract> temp;
                 ArrayList<Contract> temp2 = new ArrayList<>();
                 temp = contractDAO.dimSelect(str);
@@ -174,5 +173,17 @@ public class ContractService {
             }
         }
         return contracts;
+    }
+
+    public String[] trimUrls(String[] urls) {
+        String[] result = new String[urls.length];
+        for (int i = 0; i < urls.length; i++) {
+            if (urls[i].length() > 0 && urls[i].charAt(urls[i].length() - 1) == '/') {
+                result[i] = urls[i].substring(0, urls[i].length() - 1);
+            } else {
+                result[i] = urls[i];
+            }
+        }
+        return result;
     }
 }
