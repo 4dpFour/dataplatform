@@ -24,7 +24,7 @@ public interface UserDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where authority=#{authority}"})
     List<User> selectByAuthority(int id);
 
-    void updateUserById(@Param("id") int id, @Param("password") String password, @Param("authority") int authority, @Param("careUrls") String careUrls);
+    void updateUser(User user);
 
     @Update({"update ", TABLE_NAME, " set careUrls=#{careUrls} where id=#{id}"})
     void updateCareUrlsById(int id, String careUrls);

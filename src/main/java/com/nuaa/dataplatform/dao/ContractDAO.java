@@ -14,8 +14,6 @@ public interface ContractDAO {
             "supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
-    @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
-            ") values (#{url},#{contractNo},#{contractName},#{projectNo},#{projectName},#{purchaser},#{purchaserTelNo},#{supplier},#{supplierTelNo},#{subjectName},#{subjectUnitPrice},#{contractValue},#{announceDate})"})
     int addContract(Contract contract);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where (url like CONCAT('%', #{str}, '%')) or " +
@@ -45,11 +43,7 @@ public interface ContractDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplier=#{supplier}"})
     List<Contract> selectBySupplier(String supplier);
 
-
-    void updateContractById(@Param("id") int id, @Param("url") String url, @Param("contractNo") String contractNo, @Param("contractName") String contractName, @Param("projectNo") String projectNo,
-                            @Param("projectName") String projectName, @Param("purchaser") String purchaser, @Param("purchaserTelNo") String purchaserTelNo,
-                            @Param("supplier") String supplier, @Param("supplierTelNo") String supplierTelNo, @Param("subjectName") String subjectName, @Param("subjectUnitPrice") String subjectUnitPrice,
-                            @Param("contractValue") String contractValue, @Param("announceDate") String announceDate);
+    void updateContract(Contract contract);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
     void deleteById(int id);

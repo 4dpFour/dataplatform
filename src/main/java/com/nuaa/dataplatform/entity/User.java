@@ -6,7 +6,7 @@ public class User implements Serializable {
     private int id;
     private String username;
     private String password;
-    private int authority;
+    private Integer authority;
     private String careUrls;
 
     public int getId() {
@@ -33,11 +33,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getAuthority() {
+    public Integer getAuthority() {
         return authority;
     }
 
-    public void setAuthority(int authority) {
+    public void setAuthority(Integer authority) {
         this.authority = authority;
     }
 
@@ -51,14 +51,13 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String username, String password, int authority) {
+    public User(String username, String password, Integer authority) {
         this.username = username;
         this.password = password;
         this.authority = authority;
     }
 
-    public User(String username, String password, int authority, String careUrls) {
-        this.username = username;
+    public User(String password, Integer authority, String careUrls) {
         this.password = password;
         this.authority = authority;
         this.careUrls = careUrls;

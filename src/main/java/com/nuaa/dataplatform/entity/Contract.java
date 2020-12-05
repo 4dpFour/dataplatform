@@ -3,6 +3,7 @@ package com.nuaa.dataplatform.entity;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Date;
+import java.util.Map;
 
 public class Contract implements Serializable {
     private int id;
@@ -132,6 +133,22 @@ public class Contract implements Serializable {
         this.announceDate = announceDate;
     }
 
+    public boolean allFieldEmpty() {
+        return url == null &&
+               contractNo == null &&
+               contractName == null &&
+               projectNo == null &&
+               projectName == null &&
+               purchaser == null &&
+               purchaserTelNo == null &&
+               supplier == null &&
+               supplierTelNo == null &&
+               subjectName == null &&
+               subjectUnitPrice == null &&
+               contractValue == null &&
+               announceDate == null;
+    }
+
     public Contract() {
     }
 
@@ -149,5 +166,21 @@ public class Contract implements Serializable {
         this.subjectUnitPrice = subjectUnitPrice;
         this.contractValue = contractValue;
         this.announceDate = announceDate;
+    }
+
+    public Contract(Map<String, String> constructMap) {
+        this.url = constructMap.get("url");
+        this.contractNo = constructMap.get("contractNo");
+        this.contractName = constructMap.get("contractName");
+        this.projectNo= constructMap.get("projectNo");
+        this.projectName = constructMap.get("projectName");
+        this.purchaser = constructMap.get("purchaser");
+        this.purchaserTelNo = constructMap.get("purchaserTelNo");
+        this.supplier = constructMap.get("supplier");
+        this.supplierTelNo = constructMap.get("supplierTelNo");
+        this.subjectName = constructMap.get("subjectName");
+        this.subjectUnitPrice = constructMap.get("subjectUnitPrice");
+        this.contractValue = constructMap.get("contractValue");
+        this.announceDate = constructMap.get("announceDate");
     }
 }

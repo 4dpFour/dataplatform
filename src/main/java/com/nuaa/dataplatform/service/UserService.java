@@ -26,8 +26,10 @@ public class UserService {
         return userDAO.selectByUsername(username);
     }
 
-    public void updateUserById(int id, String password, int authority, String careUrls) {
-        userDAO.updateUserById(id, password, authority, careUrls);
+    public void updateUserById(int id, String password, Integer authority, String careUrls) {
+        User user = new User(password, authority, careUrls);
+        user.setId(id);
+        userDAO.updateUser(user);
     }
 
     public void updateCareUrlsById(int id, String urls) {
@@ -39,7 +41,7 @@ public class UserService {
         userDAO.deleteById(id);
     }
 
-    public String register(String username, String password, int authority) {
+    public String register(String username, String password, Integer authority) {
         User user = new User(username, password, authority);
         userDAO.addUser(user);
         //注册成功也发一个机票 自动登录
@@ -75,8 +77,7 @@ public class UserService {
 
             //取得 ticket 字符串对应的 user
             int userId = loginTicket.getUserId();
-            User user = userDAO.selectById(userId);
-            return user;
+            return userDAO.selectById(userId);
         }
         return null;
     }

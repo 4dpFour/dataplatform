@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -132,11 +135,11 @@ public class UserController {
         try {
             String password = (String) requestMap.get("password");
             Integer authority = (Integer) requestMap.get("authority");
-            String careUrls = (String) requestMap.get("urls");
-            if (password == null && authority == null) {
+            ArrayList<String> careUrls = ((ArrayList<String>) requestMap.get("urls"));
+            if (password == null && authority == null && (careUrls == null || careUrls.size() == 0)) {
                 return Result.failure(ResultCode.BAD_REQUEST, "未输入更新项");
             }
-            userService.updateUserById(id, password, authority, careUrls);
+            userService.updateUserById(id, password, authority, careUrls.toString());
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();

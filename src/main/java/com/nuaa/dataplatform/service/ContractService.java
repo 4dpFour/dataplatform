@@ -44,12 +44,8 @@ public class ContractService {
         return contracts;
     }
 
-    public Contract addContract(String url, String contractNo, String contractName, String projectNo, String projectName,
-                                String purchaser, String purchaserTelNo, String supplier, String supplierTelNo,
-                                String subjectName,String subjectUnitPrice, String contractValue, String announceDate)
+    public Contract addContract(Contract contract)
     {
-        Contract contract = new Contract(url, contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo,
-                supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate);
         contractDAO.addContract(contract);
         return contract;
     }
@@ -58,10 +54,9 @@ public class ContractService {
         contractDAO.deleteById(id);
     }
 
-    public void updateContract(Contract contract) {
-        contractDAO.updateContractById(contract.getId(), contract.getUrl(), contract.getContractNo(), contract.getContractName(),
-                contract.getProjectNo(), contract.getProjectName(), contract.getPurchaser(), contract.getPurchaserTelNo(),
-                contract.getSupplier(), contract.getSupplierTelNo(), contract.getSubjectName(), contract.getSubjectUnitPrice(), contract.getContractValue(), contract.getAnnounceDate());
+    public void updateContract(int id, Contract contract) {
+        contract.setId(id);
+        contractDAO.updateContract(contract);
     }
 
     public int crawl(String[] urls) throws IOException {
