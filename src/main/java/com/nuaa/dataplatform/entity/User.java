@@ -1,6 +1,8 @@
 package com.nuaa.dataplatform.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable {
     private int id;
@@ -63,12 +65,17 @@ public class User implements Serializable {
         this.careUrls = careUrls;
     }
 
-    public String[] getUrlsArray() {
+    public List<String> getUrlsList() {
+        List<String> urlsList = new ArrayList<>();
         String urls = this.careUrls.substring(1, careUrls.length() - 1);
         String[] urlArray = urls.split(",");
         for (int i = 0; i <  urlArray.length; i++) {
             urlArray[i] = urlArray[i].trim();
+            if (urlArray[i].charAt(urlArray[i].length() - 1) == '/') {
+                urlArray[i] = urlArray[i].substring(0, urlArray[i].length() - 1);
+            }
+            urlsList.add(urlArray[i]);
         }
-        return urlArray;
+        return urlsList;
     }
 }

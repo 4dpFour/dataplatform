@@ -22,32 +22,25 @@ public interface ContractDAO {
             "(purchaser like CONCAT('%', #{str}, '%')) or (purchaserTelNo like CONCAT('%', #{str}, '%')) or " +
             "(supplier like CONCAT('%', #{str}, '%')) or (supplierTelNo like CONCAT('%', #{str}, '%')) or " +
             "(subjectName like CONCAT('%', #{str}, '%')) or (subjectUnitPrice like CONCAT('%', #{str}, '%')) or " +
-            "(contractValue like CONCAT('%', #{str}, '%')) or (announceDate like CONCAT('%', #{str}, '%'))"})
+            "(contractValue like CONCAT('%', #{str}, '%')) or (announceDate like CONCAT('%', #{str}, '%')) order by id desc"})
     List<Contract> dimSelect(String str);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
     Contract selectById(int id);
 
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where contractNo=#{contractNo}"})
-    Contract selectByContractNo(String contractNo);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where url=#{url}"})
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where url=#{url} order by id desc"})
     List<Contract> selectByUrl(String url);
+
+    List<Contract> selectByUrls(List<String> urls);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where url=#{url} order by id desc limit 1"})
     Contract selectNewestByUrl(String url);
 
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where purchaser=#{purchaser}"})
-    List<Contract> selectByPurchaser(String purchaser);
-
-    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where supplier=#{supplier}"})
-    List<Contract> selectBySupplier(String supplier);
-
     void updateContract(Contract contract);
 
     @Delete({"delete from ", TABLE_NAME, " where id=#{id}"})
-    void deleteById(int id);
+    int deleteById(int id);
 
-    @Delete({"delete from ", TABLE_NAME, " where contractNo=#{contractNo}"})
-    void deleteByContractNo(String contractNo);
+    int deleteByIds(List<Integer> ids);
+
 }

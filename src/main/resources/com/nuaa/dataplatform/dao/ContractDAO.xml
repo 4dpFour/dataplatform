@@ -22,7 +22,7 @@
         WHERE id=#{id}
     </update>
     <insert id="addContract" useGeneratedKeys="true" keyProperty="id">
-        insert into  contract
+        insert into contract
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="url != null and url != ''">url,</if>
             <if test="contractNo != null and contractNo != ''">contractNo,</if>
@@ -54,4 +54,19 @@
             <if test="announceDate != null and announceDate != ''">#{announceDate},</if>
         </trim>
     </insert>
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete from contract
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <select id="selectByUrls" parameterType="java.util.List" resultType="com.nuaa.dataplatform.entity.Contract">
+        select * from contract
+        where url in
+        <foreach collection="list" item="url" open="(" separator="," close=")">
+            '${url}'
+        </foreach>
+        order by id desc
+    </select>
 </mapper>

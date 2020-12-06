@@ -4,15 +4,14 @@ import com.nuaa.dataplatform.entity.User;
 import com.nuaa.dataplatform.service.UserService;
 import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
-import com.nuaa.dataplatform.util.ResultCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
+
+import static com.nuaa.dataplatform.util.ResultCode.*;
 
 @RestController
 @RequestMapping("/user")
@@ -30,11 +29,11 @@ public class UserController {
             String username = requestMap.get("username");
             String password = requestMap.get("password");
             if (username.trim().length() == 0) {
-                return Result.failure(ResultCode.FORBIDDEN, "用户名不能为空");
+                return Result.failure(FORBIDDEN, "用户名不能为空");
             }
             User currentUser = hostHolder.getUser();
             if (currentUser != null) {
-                return Result.failure(ResultCode.FORBIDDEN, "用户" + currentUser.getUsername() + "已经登陆");
+                return Result.failure(FORBIDDEN, "用户" + currentUser.getUsername() + "已经登陆");
             }
             String ticket = userService.login(username, password);
             if (ticket != null && ticket.length() > 0) {
@@ -44,11 +43,11 @@ public class UserController {
                 response.addCookie(cookie);
                 return Result.success();
             } else {
-                return Result.failure(ResultCode.FORBIDDEN, "用户名或密码错误");
+                return Result.failure(FORBIDDEN, "用户名或密码错误");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 
@@ -60,13 +59,13 @@ public class UserController {
             String password = (String) requestMap.get("password");
             Integer authority = (Integer) requestMap.get("authority");
             if (username.trim().length() == 0) {
-                return Result.failure(ResultCode.FORBIDDEN, "用户名不能为空");
+                return Result.failure(FORBIDDEN, "用户名不能为空");
             }
             if (username.length() == 0) {
-                return Result.failure(ResultCode.FORBIDDEN, "密码不能为空");
+                return Result.failure(FORBIDDEN, "密码不能为空");
             }
             if (userService.getUserByUsername(username) != null) {
-                return Result.failure(ResultCode.FORBIDDEN, "用户名已存在");
+                return Result.failure(FORBIDDEN, "用户名已存在");
             }
             String ticket;
             if (authority == null) {
@@ -83,7 +82,7 @@ public class UserController {
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 
@@ -93,10 +92,10 @@ public class UserController {
             if (userService.logout(ticket)) {
                 return Result.success();
             }
-            return Result.failure(ResultCode.FORBIDDEN, "未登录用户");
+            return Result.failure(FORBIDDEN, "未登录用户");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 
@@ -107,10 +106,10 @@ public class UserController {
             if (user != null) {
                 return Result.success(user);
             }
-            return Result.failure(ResultCode.FORBIDDEN, "用户不存在");
+            return Result.failure(FORBIDDEN, "用户不存在");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 
@@ -122,10 +121,10 @@ public class UserController {
                 userService.deleteUserById(id);
                 return Result.success();
             }
-            return Result.failure(ResultCode.FORBIDDEN, "用户不存在");
+            return Result.failure(FORBIDDEN, "用户不存在");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 
@@ -137,13 +136,13 @@ public class UserController {
             Integer authority = (Integer) requestMap.get("authority");
             ArrayList<String> careUrls = ((ArrayList<String>) requestMap.get("urls"));
             if (password == null && authority == null && (careUrls == null || careUrls.size() == 0)) {
-                return Result.failure(ResultCode.BAD_REQUEST, "未输入更新项");
+                return Result.failure(BAD_REQUEST, "未输入更新项");
             }
             userService.updateUserById(id, password, authority, careUrls.toString());
             return Result.success();
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 
@@ -154,10 +153,10 @@ public class UserController {
             if (user != null) {
                 return Result.success(user);
             }
-            return Result.failure(ResultCode.FORBIDDEN, "用户未登录");
+            return Result.failure(FORBIDDEN, "用户未登录");
         } catch (Exception e) {
             e.printStackTrace();
-            return Result.failure(ResultCode.SERVER_ERROR);
+            return Result.failure(SERVER_ERROR);
         }
     }
 }

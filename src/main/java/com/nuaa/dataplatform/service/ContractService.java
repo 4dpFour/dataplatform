@@ -33,15 +33,8 @@ public class ContractService {
         return contractDAO.selectByUrl(url);
     }
 
-    public List<Contract> getContractsByUrls(String[] urls) {
-        ArrayList<Contract> contracts = new ArrayList<>();
-        for (String url : urls) {
-            if (url.length() > 0 && url.charAt(url.length() - 1) == '/') {
-                url = url.substring(0, url.length() - 1);
-            }
-            contracts.addAll(contractDAO.selectByUrl(url));
-        }
-        return contracts;
+    public List<Contract> getContractsByUrls(List<String> urls) {
+        return contractDAO.selectByUrls(urls);
     }
 
     public Contract addContract(Contract contract)
@@ -50,8 +43,12 @@ public class ContractService {
         return contract;
     }
 
-    public void deleteContractById(int id) {
-        contractDAO.deleteById(id);
+    public int deleteContractById(int id) {
+        return contractDAO.deleteById(id);
+    }
+
+    public int deleteContractByIds(List<Integer> ids) {
+        return contractDAO.deleteByIds(ids);
     }
 
     public void updateContract(int id, Contract contract) {
@@ -59,9 +56,8 @@ public class ContractService {
         contractDAO.updateContract(contract);
     }
 
-    public int crawl(String[] urls) throws IOException {
+    public int crawl(List<String> urls) throws IOException {
         ArrayList<Contract> contracts = new ArrayList<>();
-        urls = trimUrls(urls);
         //给爷一个个爬
         for (String url : urls) {
             if (url.equals(URL_CCGP) ) {
@@ -121,11 +117,9 @@ public class ContractService {
         return str.split("：", -1)[1].trim();
     }
 
-    public ArrayList<Contract> dimSelect(String query, String[] careUrls) {
-        careUrls = trimUrls(careUrls);
+    public ArrayList<Contract> dimSelect(String query, List<String> urls) {
         ArrayList<Contract> contracts = new ArrayList<>();
         String[] querys = query.split(" ");
-        List<String> urls = Arrays.asList(careUrls);
         if (!query.isEmpty()) {
             for(String str : querys) {
                 List<Contract> temp;
@@ -143,17 +137,5 @@ public class ContractService {
             }
         }
         return contracts;
-    }
-
-    public String[] trimUrls(String[] urls) {
-        String[] result = new String[urls.length];
-        for (int i = 0; i < urls.length; i++) {
-            if (urls[i].length() > 0 && urls[i].charAt(urls[i].length() - 1) == '/') {
-                result[i] = urls[i].substring(0, urls[i].length() - 1);
-            } else {
-                result[i] = urls[i];
-            }
-        }
-        return result;
     }
 }
