@@ -1,18 +1,14 @@
 package com.nuaa.dataplatform.service;
 
 import com.nuaa.dataplatform.dao.ContractDAO;
+import com.nuaa.dataplatform.dao.UrlDAO;
 import com.nuaa.dataplatform.entity.Contract;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import com.nuaa.dataplatform.entity.Url;
+import com.nuaa.dataplatform.util.Crawler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,10 +16,10 @@ public class ContractService {
 
     @Autowired
     private ContractDAO contractDAO;
+    @Autowired
+    private UrlDAO urlDAO;
     @Value("${default.page.limit}")
-    private int DEFAULT_PAGE_LIMIT;
-    @Value("${url.ccgp}")
-    private String URL_CCGP;
+    private int MAX_PAGE;
 
     public Contract getContractById(int id) {
         return contractDAO.selectById(id);
@@ -56,25 +52,47 @@ public class ContractService {
         contractDAO.updateContract(contract);
     }
 
-    public int crawl(List<String> urls) throws IOException {
+    public int crawl(List<String> urlNames) throws Exception {
         ArrayList<Contract> contracts = new ArrayList<>();
         //给爷一个个爬
-        for (String url : urls) {
-            if (url.equals(URL_CCGP) ) {
-                contracts.addAll(crawlCcgp(URL_CCGP, DEFAULT_PAGE_LIMIT));
+        for (String urlName : urlNames) {
+            Url url = urlDAO.selectByUrlName(urlName);
+            if (url != null) {
+                List<Contract> temp = Crawler.crawl(url.getUrlName(), url.getSeedPage(), url.getDetailPage(), MAX_PAGE);
+                if (temp != null && temp.size() > 0) {
+                    contracts.addAll(temp);
+                }
             }
-            //TODO: more urls to be supported.
         }
         if (contracts.size() == 0) {
             return 0;
         }
-        //根据发布的顺序写入数据库(越新的放越后面)
-        for (int i = contracts.size() - 1; i >= 0; i--) {
-            contractDAO.addContract(contracts.get(i));
-        }
-        return contracts.size();
+        return contractDAO.addUnrepeatedly(contracts);
     }
 
+    public ArrayList<Contract> dimSelect(String query, List<String> urlNames) {
+        ArrayList<Contract> contracts = new ArrayList<>();
+        String[] querys = query.split(" ");
+        if (!query.isEmpty()) {
+            for(String str : querys) {
+                List<Contract> temp;
+                ArrayList<Contract> temp2 = new ArrayList<>();
+                temp = contractDAO.dimSelect(str);
+                for(Contract contract:temp) {
+                    if(urlNames.contains(contract.getUrl())) {
+                        temp2.add(contract);
+                    }
+                }
+                if (temp.size() != 0) {
+                    contracts.addAll(temp2);
+                    temp2.clear();
+                }
+            }
+        }
+        return contracts;
+    }
+
+    /* 旧的爬虫模块，无法通用且不稳定
     public ArrayList<Contract> crawlCcgp(String url, int pageLimit) throws IOException {
         ArrayList<Contract> contracts = new ArrayList<>();
         Contract topContract = contractDAO.selectNewestByUrl(url);
@@ -112,30 +130,5 @@ public class ContractService {
         }
         return contracts;
     }
-
-    public String splitAndTrim(String str) {
-        return str.split("：", -1)[1].trim();
-    }
-
-    public ArrayList<Contract> dimSelect(String query, List<String> urls) {
-        ArrayList<Contract> contracts = new ArrayList<>();
-        String[] querys = query.split(" ");
-        if (!query.isEmpty()) {
-            for(String str : querys) {
-                List<Contract> temp;
-                ArrayList<Contract> temp2 = new ArrayList<>();
-                temp = contractDAO.dimSelect(str);
-                for(Contract contract:temp) {
-                    if(urls.contains(contract.getUrl())) {
-                        temp2.add(contract);
-                    }
-                }
-                if (temp.size() != 0) {
-                    contracts.addAll(temp2);
-                    temp2.clear();
-                }
-            }
-        }
-        return contracts;
-    }
+    */
 }

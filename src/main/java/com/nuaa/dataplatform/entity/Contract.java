@@ -1,8 +1,6 @@
 package com.nuaa.dataplatform.entity;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.util.Date;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -151,6 +149,10 @@ public class Contract implements Serializable {
                announceDate == null;
     }
 
+    public boolean indexEmpty() {
+        return (contractNo == null || contractNo.equals("")) && (contractName == null || contractName.equals(""));
+    }
+
     public Contract() {
     }
 
@@ -204,6 +206,6 @@ public class Contract implements Serializable {
 
     private String matchData(String content, String patternString) {
         Matcher matcher = Pattern.compile("(?<=" + patternString + "[\\s]{0,100})[\\S]+").matcher(content);
-        return matcher.find() ? matcher.group(0) : "";
+        return matcher.find() ? matcher.group(0) : null;
     }
 }

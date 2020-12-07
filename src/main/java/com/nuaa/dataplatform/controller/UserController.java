@@ -10,7 +10,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Map;
-
 import static com.nuaa.dataplatform.util.ResultCode.*;
 
 @RestController
