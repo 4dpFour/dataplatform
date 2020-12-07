@@ -191,10 +191,7 @@ public class Contract implements Serializable {
     public Contract(String content) {
         this.contractNo = matchData(content, "合同编号");
         this.contractName = matchData(content, "合同名称");
-        this.projectNo = matchData(content, "项目编号");
-        if (projectNo == null || projectNo.equals("")) {
-            this.projectNo = matchData(content, "项目编码");    //【项目编号】有时也叫【项目编码】。。
-        }
+        this.projectNo = matchData(content, "项目编[号码]");    //【项目编号】有时也叫【项目编码】。。
         this.projectName = matchData(content, "项目名称");
         this.purchaser = matchData(content, "采购人");
         this.purchaserTelNo = matchData(content, "联系方式");
@@ -206,16 +203,41 @@ public class Contract implements Serializable {
         this.contractValue = matchData(content, "合同金额");
         this.announceDate = matchData(content, "合同公告日期");
         //把 x年x月x日 改成 x-x-x
-        if (announceDate != null) {
+        if (announceDate != null && !announceDate.equals("")) {
             announceDate = announceDate.replace('年', '-').replace('月', '-').replace('日', '\0');
         } else {
             announceDate = "1970-01-01";
         }
     }
 
+    /** 去除首尾的空格、下划线、冒号 */
+    public String clearTrim(String str) {
+        char t; int lenth = 0;
+        for (int i = 0; i < str.length(); i++) {
+            t = str.charAt(i);
+            if (t == ' ' || t == '_' || t == '：' || t == ':' || t == '　') {
+                lenth++;
+            } else {
+                break;
+            }
+        }
+        str = str.substring(lenth);
+        lenth = str.length();
+        for (int i = str.length() - 1; i >= 0; i--) {
+            t = str.charAt(i);
+            if (t == ' ' || t == '_' || t == '：' || t == ':' || t == '　') {
+                lenth--;
+            } else {
+                break;
+            }
+        }
+        str = str.substring(0, lenth);
+        return str;
+    }
+
     private String matchData(String content, String patternString) {
-        Matcher matcher = Pattern.compile("(?<=" + patternString + "[\\S]{0,100}[:：\\s][\\s]{0,100})[\\S]+").matcher(content);
-        return matcher.find() ? matcher.group(0) : null;
+        Matcher matcher = Pattern.compile("(?<=" + patternString + ".{0,100}[:：\\s])[\\S]+").matcher(content);
+        return matcher.find() ? clearTrim(matcher.group(0)) : null;
     }
 
     public String toString() {
