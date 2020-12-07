@@ -4,6 +4,7 @@ import com.nuaa.dataplatform.entity.User;
 import com.nuaa.dataplatform.service.UserService;
 import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
+import com.nuaa.dataplatform.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
@@ -27,7 +28,7 @@ public class UserController {
         try {
             String username = requestMap.get("username");
             String password = requestMap.get("password");
-            if (username.trim().length() == 0) {
+            if (StrUtil.isEmpty(username.trim())) {
                 return Result.failure(FORBIDDEN, "用户名不能为空");
             }
             User currentUser = hostHolder.getUser();
@@ -35,7 +36,7 @@ public class UserController {
                 return Result.failure(FORBIDDEN, "用户" + currentUser.getUsername() + "已经登陆");
             }
             String ticket = userService.login(username, password);
-            if (ticket != null && ticket.length() > 0) {
+            if (!StrUtil.isEmpty(ticket)) {
                 Cookie cookie = new Cookie("ticket", ticket);
                 cookie.setPath("/");
                 cookie.setMaxAge(3600*24*30);    //cookie有效期设置一个月
@@ -57,10 +58,10 @@ public class UserController {
             String username = (String) requestMap.get("username");
             String password = (String) requestMap.get("password");
             Integer authority = (Integer) requestMap.get("authority");
-            if (username.trim().length() == 0) {
+            if (StrUtil.isEmpty(username.trim())) {
                 return Result.failure(FORBIDDEN, "用户名不能为空");
             }
-            if (username.length() == 0) {
+            if (StrUtil.isEmpty(password.trim())) {
                 return Result.failure(FORBIDDEN, "密码不能为空");
             }
             if (userService.getUserByUsername(username) != null) {
@@ -72,7 +73,7 @@ public class UserController {
             } else {
                 ticket = userService.register(username, password, authority);
             }
-            if (ticket != null && ticket.length() > 0) {
+            if (!StrUtil.isEmpty(ticket)) {
                 Cookie cookie = new Cookie("ticket", ticket);
                 cookie.setPath("/");
                 cookie.setMaxAge(3600*24*30);    //cookie有效期设置一个月

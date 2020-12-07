@@ -4,13 +4,13 @@ import com.nuaa.dataplatform.entity.Contract;
 import com.nuaa.dataplatform.service.ContractService;
 import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
+import com.nuaa.dataplatform.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static com.nuaa.dataplatform.util.ResultCode.*;
 
 
@@ -44,7 +44,7 @@ public class ContractController {
     public Result listContracts(@RequestParam(name = "query", required = false) String query) {
         try {
             List<Contract> contracts;
-            if (query == null || query.length() == 0) {
+            if (StrUtil.isEmpty(query)) {
                 contracts = contractService.getContractsByUrls(hostHolder.getUser().getUrlsList());
             } else {
                 contracts = contractService.dimSelect(query, hostHolder.getUser().getUrlsList());

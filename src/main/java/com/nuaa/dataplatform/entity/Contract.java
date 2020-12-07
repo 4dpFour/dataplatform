@@ -1,5 +1,6 @@
 package com.nuaa.dataplatform.entity;
 
+import com.nuaa.dataplatform.util.StrUtil;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -201,43 +202,14 @@ public class Contract implements Serializable {
         this.subjectName = matchData(content, "主要标的名称");
         this.subjectUnitPrice = matchData(content, "主要标的单价");
         this.contractValue = matchData(content, "合同金额");
-        this.announceDate = matchData(content, "合同公告日期");
-        //把 x年x月x日 改成 x-x-x
-        if (announceDate != null && !announceDate.equals("")) {
-            announceDate = announceDate.replace('年', '-').replace('月', '-').replace('日', '\0');
-        } else {
-            announceDate = "1970-01-01";
-        }
+        this.announceDate = StrUtil.dateFormat(matchData(content, "合同公告日期"));
     }
 
-    /** 去除首尾的空格、下划线、冒号 */
-    public String clearTrim(String str) {
-        char t; int lenth = 0;
-        for (int i = 0; i < str.length(); i++) {
-            t = str.charAt(i);
-            if (t == ' ' || t == '_' || t == '：' || t == ':' || t == '　') {
-                lenth++;
-            } else {
-                break;
-            }
-        }
-        str = str.substring(lenth);
-        lenth = str.length();
-        for (int i = str.length() - 1; i >= 0; i--) {
-            t = str.charAt(i);
-            if (t == ' ' || t == '_' || t == '：' || t == ':' || t == '　') {
-                lenth--;
-            } else {
-                break;
-            }
-        }
-        str = str.substring(0, lenth);
-        return str;
-    }
+
 
     private String matchData(String content, String patternString) {
         Matcher matcher = Pattern.compile("(?<=" + patternString + ".{0,100}[:：\\s])[\\S]+").matcher(content);
-        return matcher.find() ? clearTrim(matcher.group(0)) : null;
+        return matcher.find() ? StrUtil.clearTrim(matcher.group(0)) : null;
     }
 
     public String toString() {
