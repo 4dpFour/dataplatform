@@ -189,23 +189,23 @@ public class Contract implements Serializable {
     }
 
     public Contract(String content) {
-        this.contractNo = matchData(content, "合同编号：");
-        this.contractName = matchData(content, "合同名称：");
-        this.projectNo = matchData(content, "项目编号：");
-        this.projectName = matchData(content, "项目名称：");
-        this.purchaser = matchData(content, "采购人（甲方）：");
-        this.purchaserTelNo = matchData(content, "联系方式：");
-        content = content.replaceFirst("联系方式：", "");    //两个联系方式的匹配头一样，删掉第一个
-        this.supplier = matchData(content, "供应商（乙方）：");
-        this.supplierTelNo = matchData(content, "联系方式：");
-        this.subjectName = matchData(content, "主要标的名称：");
-        this.subjectUnitPrice = matchData(content, "主要标的单价：");
-        this.contractValue = matchData(content, "合同金额：");
-        this.announceDate = matchData(content, "合同公告日期：");
+        this.contractNo = matchData(content, "合同编号");
+        this.contractName = matchData(content, "合同名称");
+        this.projectNo = matchData(content, "项目编号");
+        this.projectName = matchData(content, "项目名称");
+        this.purchaser = matchData(content, "采购人[\\(（]甲方[）\\)]");
+        this.purchaserTelNo = matchData(content, "联系方式");
+        content = content.replaceFirst("联系方式", "");    //两个联系方式的匹配头一样，删掉第一个
+        this.supplier = matchData(content, "供应商[\\(（]乙方[）\\)]");
+        this.supplierTelNo = matchData(content, "联系方式");
+        this.subjectName = matchData(content, "主要标的名称");
+        this.subjectUnitPrice = matchData(content, "主要标的单价");
+        this.contractValue = matchData(content, "合同金额");
+        this.announceDate = matchData(content, "合同公告日期");
     }
 
     private String matchData(String content, String patternString) {
-        Matcher matcher = Pattern.compile("(?<=" + patternString + "[\\s]{0,100})[\\S]+").matcher(content);
+        Matcher matcher = Pattern.compile("(?<=" + patternString + "[:：][\\s]{0,100})[\\S]+").matcher(content);
         return matcher.find() ? matcher.group(0) : null;
     }
 }
