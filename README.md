@@ -24,13 +24,18 @@
 
 ### 更新
 
-- **DELETE /contract**
+- **GET /contract/crawl**
 
-  完成批量删除接口。
-  
-- **GET /contract/list**
+  - 整合了 WebCollector 爬虫框架，爬虫更稳定了(大概吧)，目前支持以下 url：
 
-  现在返回的条目会按从新到旧排序。
+  ```
+  中国政府采购网
+  北京市政府采购网
+  湖北省政府采购网
+  ```
+
+  - 数据库的 url 表保存了能爬的网站的爬取规则，包含 `urlName` 、 `seedPage` 、 `detailPage`，分别代表网址名称、目录页地址、详情页地址，遇到其他可抓取的网站后可以自行向数据库中添加。
+  - 由于不同网站提供的信息不同，部分网站爬取的合同可能有部分字段为空。
 
 
 
@@ -54,7 +59,11 @@
 
 ```json
 {
-    "urls": ["http://www.aaa.com", "http://www.bbb.com", "http://www.ccc.com"]
+    "urls": [
+        "中国政府采购网", 
+        "北京市政府采购网", 
+        "湖北省政府采购网"
+    ]
 }
 ```
 
@@ -82,9 +91,9 @@
     "code": 200,
     "msg": "OK",
     "data": [
-        "http://htgs.ccgp.gov.cn/GS8/contractpublish",
-        "http://www.bbb.com",
-        "http://www.ccc.com"
+        "中国政府采购网",
+        "北京市政府采购网",
+        "湖北省政府采购网"
     ]
 }
 ```
@@ -224,7 +233,12 @@
         "username": "沖田総司",
         "password": "OkitaSouji",
         "authority": 6,
-        "careUrls": "[http://www.aaa.com, http://www.bbb.com, http://www.ccc.com]"
+        "careUrls": "[中国政府采购网, 北京市政府采购网, 湖北省政府采购网]",
+        "urlsList": [
+            "中国政府采购网",
+            "北京市政府采购网",
+            "湖北省政府采购网"
+        ]
     }
 }
 ```
@@ -241,7 +255,7 @@
 
 #### PUT /user/{id}
 
-- 强行更新某个用户的数据，一般只有管理员才能这么做，三个数据均为非必填项。
+- 强行更新某个用户的数据，三个数据均为非必填项。
 
 请求地址：PUT /user/{id}
 
@@ -258,7 +272,11 @@
 ```json
 {
     "authority": 100,
-    "urls": ["http://www.aaa.com", "http://www.bbb.com", "http://www.ccc.com"]
+    "urls": [
+        "中国政府采购网", 
+        "北京市政府采购网", 
+        "湖北省政府采购网"
+    ]
 }
 ```
 
@@ -308,14 +326,23 @@
 
 
 
-
-
 ### 合同模块
 
 #### GET /contract/crawl
 
 - 请求后，后台将开始爬取并更新该用户当前配置的 url 下的合同数据
+
 - 后端单线程地爬取，直至爬取完成，或遇到错误时，才会返回
+
+- 目前支持以下 url：
+
+  ```
+  中国政府采购网
+  北京市政府采购网
+  湖北省政府采购网
+  ```
+
+- 由于不同网站提供的信息不同，部分网站爬取的合同可能有部分字段为空。
 
 请求地址：GET /contract/crawl
 
@@ -374,7 +401,7 @@
 ```url
 http://localhost:8080/contract/list
 
-http://localhost:8080/contract/list?query=中国科学院 北京大学 118.700000万元
+http://localhost:8080/contract/list?query=国家卫星气象中心 中国建筑技术集团有限公司
 ```
 
 响应示例：
@@ -385,36 +412,36 @@ http://localhost:8080/contract/list?query=中国科学院 北京大学 118.70000
     "msg": "OK",
     "data": [
         {
-            "id": 1476,
-            "url": "http://htgs.ccgp.gov.cn/GS8/contractpublish",
-            "contractNo": "GSZCSC-HT-2020-220251",
-            "contractName": "甘肃省中医院网上商城合同",
-            "projectNo": "GSZCSC-HT-2020-220251",
-            "projectName": "甘肃省中医院网上商城合同",
-            "purchaser": "甘肃省中医院",
-            "purchaserTelNo": "无",
-            "supplier": "北京中际远华科贸有限公司",
-            "supplierTelNo": "无",
-            "subjectName": "电冰箱",
-            "subjectUnitPrice": "1745.03 1648.03",
-            "contractValue": "3.228257万元",
-            "announceDate": "2020-12-14"
+            "id": 2245,
+            "url": "中国政府采购网",
+            "contractNo": "FY3(02P)-SY-2005",
+            "contractName": "风云三号02批地面应用系统工程无人机卫星定标与检验自动观测系统",
+            "projectNo": "ZQC-R20172",
+            "projectName": "风云三号02批气象卫星工程",
+            "purchaser": "国家卫星气象中心",
+            "purchaserTelNo": "010-62173767",
+            "supplier": "北京华云星地通科技有限公司",
+            "supplierTelNo": "010-68407953",
+            "subjectName": "无人机观测系统",
+            "subjectUnitPrice": "27967000",
+            "contractValue": "2796.700000万元",
+            "announceDate": "2020-12-07"
         },
         {
-            "id": 1475,
-            "url": "http://htgs.ccgp.gov.cn/GS8/contractpublish",
-            "contractNo": "GSZCSC-HT-2020-221567",
-            "contractName": "甘肃省中医院网上商城合同",
-            "projectNo": "GSZCSC-HT-2020-221567",
-            "projectName": "甘肃省中医院网上商城合同",
-            "purchaser": "甘肃省中医院",
-            "purchaserTelNo": "无",
-            "supplier": "兰州四通电子技术有限公司",
-            "supplierTelNo": "无",
-            "subjectName": "移动硬盘/U盘",
-            "subjectUnitPrice": "550.00元 140.00元",
-            "contractValue": "0.250000万元",
-            "announceDate": "2020-12-14"
+            "id": 2246,
+            "url": "中国政府采购网",
+            "contractNo": "FY3(02P)-QT-2005",
+            "contractName": "FY-3/GNOS近实时GNSS精密星历解算软件系统研发",
+            "projectNo": "ZQC-R20172",
+            "projectName": "风云三号02批气象卫星工程",
+            "purchaser": "国家卫星气象中心",
+            "purchaserTelNo": "010-62173767",
+            "supplier": "中国科学院国家空间科学中心",
+            "supplierTelNo": "010-62557975",
+            "subjectName": "GNOS系统",
+            "subjectUnitPrice": "2000000",
+            "contractValue": "200.000000万元",
+            "announceDate": "2020-12-07"
         }
     ]
 }
@@ -443,20 +470,20 @@ http://localhost:8080/contract/list?query=中国科学院 北京大学 118.70000
     "code": 200,
     "msg": "OK",
     "data": {
-        "id": 265,
-        "url": "http://htgs.ccgp.gov.cn/GS8/contractpublish",
-        "contractNo": "CSU-U-CG-2020-0022",
-        "contractName": "显示屏采购合同",
-        "projectNo": "0722-206FE1486FZO",
-        "projectName": "显示屏采购招标项目",
-        "purchaser": "中国科学院空间应用工程与技术中心",
-        "purchaserTelNo": "010-82178863",
-        "supplier": "北京朗迪锋科技有限公司",
-        "supplierTelNo": "15301027313",
-        "subjectName": "显示屏",
-        "subjectUnitPrice": "3098250",
-        "contractValue": "5749800.000000万元",
-        "announceDate": "2020-12-02"
+        "id": 2250,
+        "url": "中国政府采购网",
+        "contractNo": "HT202010200850461094",
+        "contractName": "Science",
+        "projectNo": "CD2020-TS-03",
+        "projectName": "重庆大学2020年外文数字资源SD采购",
+        "purchaser": "重庆大学",
+        "purchaserTelNo": "023-65104111　",
+        "supplier": "中国教育图书进出口有限公司",
+        "supplierTelNo": "010-57933034",
+        "subjectName": "Elsevier",
+        "subjectUnitPrice": "详见合同",
+        "contractValue": "382.500000万元",
+        "announceDate": "2020-12-07"
     }
 }
 ```
@@ -507,7 +534,7 @@ http://localhost:8080/contract/list?query=中国科学院 北京大学 118.70000
 
 响应示例：
 
-添加成功将返回该合同的信息，**并带有该合同的 id**。
+添加成功将返回该合同的信息，并带有该合同的 id。
 
 ```json
 {
