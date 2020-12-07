@@ -3,8 +3,6 @@ package com.nuaa.dataplatform.dao;
 import com.nuaa.dataplatform.entity.User;
 import org.apache.ibatis.annotations.*;
 
-import java.util.List;
-
 @Mapper
 public interface UserDAO {
     String TABLE_NAME = "user";

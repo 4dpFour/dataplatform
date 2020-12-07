@@ -1,10 +1,7 @@
 package com.nuaa.dataplatform.dao;
 
 import com.nuaa.dataplatform.entity.Contract;
-import com.nuaa.dataplatform.entity.User;
 import org.apache.ibatis.annotations.*;
-
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -15,6 +12,8 @@ public interface ContractDAO {
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     int addContract(Contract contract);
+
+    int addUnrepeatedly(Contract contract);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where (url like CONCAT('%', #{str}, '%')) or " +
             "(contractNo like CONCAT('%', #{str}, '%')) or (contractName like CONCAT('%', #{str}, '%')) or " +

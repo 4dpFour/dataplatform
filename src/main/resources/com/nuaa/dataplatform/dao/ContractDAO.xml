@@ -69,4 +69,37 @@
         </foreach>
         order by id desc
     </select>
+    <insert id="addUnrepeatedly" useGeneratedKeys="true" keyProperty="id">
+        insert ignore into contract
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="url != null and url != ''">url,</if>
+            <if test="contractNo != null and contractNo != ''">contractNo,</if>
+            <if test="contractName != null and contractName != ''">contractName,</if>
+            <if test="projectNo != null and projectNo != ''">projectNo,</if>
+            <if test="projectName != null and projectName != ''">projectName,</if>
+            <if test="purchaser != null and purchaser != ''">purchaser,</if>
+            <if test="purchaserTelNo != null and purchaserTelNo != ''">purchaserTelNo,</if>
+            <if test="supplier != null and supplier != ''">supplier,</if>
+            <if test="supplierTelNo != null and supplierTelNo != ''">supplierTelNo,</if>
+            <if test="subjectName != null and subjectName != ''">subjectName,</if>
+            <if test="subjectUnitPrice != null and subjectUnitPrice != ''">subjectUnitPrice,</if>
+            <if test="contractValue != null and contractValue != ''">contractValue,</if>
+            <if test="announceDate != null and announceDate != ''">announceDate ,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="url != null and url != ''">#{url},</if>
+            <if test="contractNo != null and contractNo != ''">#{contractNo},</if>
+            <if test="contractName != null and contractName != ''">#{contractName},</if>
+            <if test="projectNo != null and projectNo != ''">#{projectNo},</if>
+            <if test="projectName != null and projectName != ''">#{projectName},</if>
+            <if test="purchaser != null and purchaser != ''">#{purchaser},</if>
+            <if test="purchaserTelNo != null and purchaserTelNo != ''">#{purchaserTelNo},</if>
+            <if test="supplier != null and supplier != ''">#{supplier},</if>
+            <if test="supplierTelNo != null and supplierTelNo != ''">#{supplierTelNo},</if>
+            <if test="subjectName != null and subjectName != ''">#{subjectName},</if>
+            <if test="subjectUnitPrice != null and subjectUnitPrice != ''">#{subjectUnitPrice},</if>
+            <if test="contractValue != null and contractValue != ''">#{contractValue},</if>
+            <if test="announceDate != null and announceDate != ''">#{announceDate},</if>
+        </trim>
+    </insert>
 </mapper>
