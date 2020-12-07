@@ -35,9 +35,16 @@
   ```
 
   - 数据库的 url 表保存了能爬的网站的爬取规则，包含 `urlName` 、 `seedPage` 、 `detailPage`，分别代表网址名称、目录页地址、详情页地址，遇到其他可抓取的网站后可以自行向数据库中添加。
+  
   - 由于不同网站提供的信息不同，部分网站爬取的合同可能有部分字段为空。
-
-
+  
+  - 在配置文件 `/src/main/resources/application.properties` 中可以配置一次爬取的页数，仅需修改 `default.page.limit` 的值即可，如：
+  
+    ```properties
+    default.page.limit=5
+    ```
+  
+    表示对每个网站默认爬取 5 页的数据。
 
 ---
 
