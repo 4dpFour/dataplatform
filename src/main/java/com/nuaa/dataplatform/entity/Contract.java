@@ -1,10 +1,7 @@
 package com.nuaa.dataplatform.entity;
 
-import com.nuaa.dataplatform.util.StrUtil;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Contract implements Serializable {
     private int id;
@@ -187,29 +184,6 @@ public class Contract implements Serializable {
         this.subjectUnitPrice = constructMap.get("subjectUnitPrice");
         this.contractValue = constructMap.get("contractValue");
         this.announceDate = constructMap.get("announceDate");
-    }
-
-    public Contract(String content) {
-        this.contractNo = matchData(content, "合同编号");
-        this.contractName = matchData(content, "合同名称");
-        this.projectNo = matchData(content, "项目编[号码]");    //【项目编号】有时也叫【项目编码】。。
-        this.projectName = matchData(content, "项目名称");
-        this.purchaser = matchData(content, "采购人");
-        this.purchaserTelNo = matchData(content, "联系方式");
-        content = content.replaceFirst("联系方式", "");    //两个联系方式的匹配头一样，删掉第一个
-        this.supplier = matchData(content, "供应商");
-        this.supplierTelNo = matchData(content, "联系方式");
-        this.subjectName = matchData(content, "主要标的名称");
-        this.subjectUnitPrice = matchData(content, "主要标的单价");
-        this.contractValue = matchData(content, "合同金额");
-        this.announceDate = StrUtil.dateFormat(matchData(content, "合同公告日期"));
-    }
-
-
-
-    private String matchData(String content, String patternString) {
-        Matcher matcher = Pattern.compile("(?<=" + patternString + ".{0,100}[:：\\s])[\\S]+").matcher(content);
-        return matcher.find() ? StrUtil.clearTrim(matcher.group(0)) : null;
     }
 
     public String toString() {

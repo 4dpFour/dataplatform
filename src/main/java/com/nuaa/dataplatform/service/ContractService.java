@@ -1,13 +1,14 @@
 package com.nuaa.dataplatform.service;
 
+import com.nuaa.dataplatform.crawler.ContractCrawler;
 import com.nuaa.dataplatform.dao.ContractDAO;
 import com.nuaa.dataplatform.dao.UrlDAO;
 import com.nuaa.dataplatform.entity.Contract;
 import com.nuaa.dataplatform.entity.Url;
-import com.nuaa.dataplatform.util.Crawler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class ContractService {
     private ContractDAO contractDAO;
     @Autowired
     private UrlDAO urlDAO;
-    @Value("${default.page.limit}")
-    private int MAX_PAGE;
+    @Value("${crawl.depth}")
+    private int CRAWL_DEPTH;
 
     public Contract getContractById(int id) {
         return contractDAO.selectById(id);
@@ -52,22 +53,24 @@ public class ContractService {
         contractDAO.updateContract(contract);
     }
 
-    public int crawl(List<String> urlNames) throws Exception {
-        ArrayList<Contract> contracts = new ArrayList<>();
+    public int crawl(List<String> urlNames, int start, int end, int thread) throws Exception {
+        int num = 0;
         //给爷一个个爬
         for (String urlName : urlNames) {
             Url url = urlDAO.selectByUrlName(urlName);
             if (url != null) {
-                List<Contract> temp = Crawler.crawl(url.getUrlName(), url.getSeedPage(), url.getDetailPage(), MAX_PAGE);
+                //反射到具体的类
+                Class cls = Class.forName(url.getClassName());
+                Constructor con = cls.getConstructor(String.class, String.class, String.class, int.class, int.class, int.class);
+                ContractCrawler crawler = (ContractCrawler) con.newInstance(url.getUrlName(), url.getSeedPage(), url.getDetailPage(), start, end, thread);
+                crawler.start(CRAWL_DEPTH);
+                List<Contract> temp =  crawler.getContracts();
                 if (temp != null && temp.size() > 0) {
-                    contracts.addAll(temp);
+                    num = num + contractDAO.addUnrepeatedly(temp);
                 }
             }
         }
-        if (contracts.size() == 0) {
-            return 0;
-        }
-        return contractDAO.addUnrepeatedly(contracts);
+        return num;
     }
 
     public ArrayList<Contract> dimSelect(String query, List<String> urlNames) {
@@ -91,44 +94,4 @@ public class ContractService {
         }
         return contracts;
     }
-
-    /* 旧的爬虫模块，无法通用且不稳定
-    public ArrayList<Contract> crawlCcgp(String url, int pageLimit) throws IOException {
-        ArrayList<Contract> contracts = new ArrayList<>();
-        Contract topContract = contractDAO.selectNewestByUrl(url);
-
-        for (int i = 1; i <= pageLimit; i++) {
-            Document doc = Jsoup.connect(url + "/index_" + i).get();
-            Elements elements = doc.select(".ulst>li");
-            elements.remove(0);
-            for(Element element : elements){
-                Elements children =  element.children();
-                String link = url + children.get(1).attr("href").substring(1);
-                Document detailDoc = Jsoup.connect(link).get();
-                Elements details = detailDoc.select(".content_2020>p");
-
-                String contractNo = splitAndTrim(details.get(0).child(0).text());
-                String contractName = splitAndTrim(details.get(1).child(0).text());
-                String projectNo = splitAndTrim(details.get(2).child(0).text());
-                String projectName = splitAndTrim(details.get(3).child(0).text());
-                String purchaser = splitAndTrim(details.get(5).text());
-                String purchaserTelNo = splitAndTrim(details.get(7).text());
-                String supplier = splitAndTrim(details.get(8).text());
-                String supplierTelNo = splitAndTrim(details.get(10).text());
-                String subjectName = splitAndTrim(details.get(12).text());
-                String subjectUnitPrice = splitAndTrim(details.get(15).text());
-                String contractValue = splitAndTrim(details.get(16).text());
-                String announceDate = splitAndTrim(details.get(20).child(0).text());
-
-                //爬到上一次最新的一条合同即终止
-                if (topContract != null && contractNo.equals(topContract.getContractNo())) {
-                    return contracts;
-                } else {
-                    contracts.add(new Contract(url, contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo, supplier, supplierTelNo, subjectName, subjectUnitPrice, contractValue, announceDate));
-                }
-            }
-        }
-        return contracts;
-    }
-    */
 }

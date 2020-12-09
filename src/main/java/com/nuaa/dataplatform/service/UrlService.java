@@ -24,5 +24,4 @@ public class UrlService {
     public int deleteUrlByName(String urlName) {
         return urlDAO.deleteByUrlName(urlName);
     }
-
 }

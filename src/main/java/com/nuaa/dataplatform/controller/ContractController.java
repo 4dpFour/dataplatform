@@ -6,6 +6,7 @@ import com.nuaa.dataplatform.util.HostHolder;
 import com.nuaa.dataplatform.util.Result;
 import com.nuaa.dataplatform.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +23,43 @@ public class ContractController {
     private ContractService contractService;
     @Autowired
     private HostHolder hostHolder;
+    @Value("${crawl.page.start}")
+    private int CRAWL_PAGE_START;
+    @Value("${crawl.page.end}")
+    private int CRAWL_PAGE_END;
+    @Value("${crawl.thread}")
+    private int CRAWL_THREAD;
 
     @GetMapping("/crawl")
-    public Result crawlContracts() {
+    public Result crawlContractsDefault() {
         try {
-            int increment = contractService.crawl(hostHolder.getUser().getUrlsList());
+            int increment = contractService.crawl(hostHolder.getUser().getUrlsList(), CRAWL_PAGE_START, CRAWL_PAGE_END, CRAWL_THREAD);
+            if (increment > 0) {
+                HashMap<String, Integer> resultMap = new HashMap<>();
+                resultMap.put("increment", increment);
+                return Result.success(resultMap);
+            } else {
+                return Result.failure(NOT_FOUND, "没爬到任何数据");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.failure(SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/crawl")
+    public Result crawlContracts(@RequestBody Map<String, Integer> requestMap) {
+        try {
+            Integer start = requestMap.get("start");
+            Integer end = requestMap.get("end");
+            Integer thread = requestMap.get("thread");
+            if (start == null || end == null || end < start) {
+                return Result.failure(FORBIDDEN, "页码数不合法");
+            }
+            if (thread == null || thread == 0) {
+                thread = 1;
+            }
+            int increment = contractService.crawl(hostHolder.getUser().getUrlsList(), start, end, thread);
             if (increment > 0) {
                 HashMap<String, Integer> resultMap = new HashMap<>();
                 resultMap.put("increment", increment);
