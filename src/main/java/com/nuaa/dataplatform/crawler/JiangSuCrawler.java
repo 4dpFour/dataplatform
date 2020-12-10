@@ -21,6 +21,7 @@ public class JiangSuCrawler extends ContractCrawler {
      */
     public JiangSuCrawler(String urlName, String seedPageFormat, String detailPageRegex, int start, int end, int thread) {
         super(urlName, seedPageFormat, detailPageRegex);
+        this.depth = 2;
 
         if (start == 1) {
             this.addSeed("http://www.ccgp-jiangsu.gov.cn/ggxx/htgg_1/index.html");

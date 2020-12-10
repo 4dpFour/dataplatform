@@ -53,10 +53,11 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(String username, String password, Integer authority) {
+    public User(String username, String password, Integer authority, String careUrls) {
         this.username = username;
         this.password = password;
         this.authority = authority;
+        this.careUrls = careUrls;
     }
 
     public User(String password, Integer authority, String careUrls) {
@@ -68,6 +69,9 @@ public class User implements Serializable {
     public List<String> getUrlsList() {
         List<String> urlsList = new ArrayList<>();
         String urls = this.careUrls.substring(1, careUrls.length() - 1);
+        if (urls.length() == 0) {
+            return urlsList;
+        }
         String[] urlArray = urls.split(",");
         for (int i = 0; i <  urlArray.length; i++) {
             urlArray[i] = urlArray[i].trim();

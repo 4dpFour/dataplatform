@@ -63,7 +63,7 @@ public class ContractService {
                 Class cls = Class.forName(url.getClassName());
                 Constructor con = cls.getConstructor(String.class, String.class, String.class, int.class, int.class, int.class);
                 ContractCrawler crawler = (ContractCrawler) con.newInstance(url.getUrlName(), url.getSeedPage(), url.getDetailPage(), start, end, thread);
-                crawler.start(CRAWL_DEPTH);
+                crawler.start(crawler.getDepth());
                 List<Contract> temp =  crawler.getContracts();
                 if (temp != null && temp.size() > 0) {
                     num = num + contractDAO.addUnrepeatedly(temp);

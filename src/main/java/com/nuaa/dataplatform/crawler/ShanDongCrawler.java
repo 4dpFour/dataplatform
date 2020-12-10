@@ -2,13 +2,17 @@ package com.nuaa.dataplatform.crawler;
 
 import cn.edu.hfut.dmic.webcollector.model.CrawlDatums;
 import cn.edu.hfut.dmic.webcollector.model.Page;
+import com.google.gson.JsonArray;
 import com.nuaa.dataplatform.entity.Contract;
 import com.nuaa.dataplatform.util.StrUtil;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+
+import java.net.URL;
 import java.util.List;
 
-public class CCGPCrawler extends ContractCrawler {
+public class ShanDongCrawler extends ContractCrawler {
 
     /**
      * 构造函数，爬虫入口
@@ -19,7 +23,7 @@ public class CCGPCrawler extends ContractCrawler {
      * @param end              结束页码
      * @param thread           启用线程数
      */
-    public CCGPCrawler(String urlName, String seedPageFormat, String detailPageRegex, int start, int end, int thread) {
+    public ShanDongCrawler(String urlName, String seedPageFormat, String detailPageRegex, int start, int end, int thread) {
         super(urlName, seedPageFormat, detailPageRegex);
         this.depth = 2;
 
@@ -42,21 +46,22 @@ public class CCGPCrawler extends ContractCrawler {
             if (!page.matchUrl(detailPage)) {
                 return;
             }
-            Document doc = page.doc();
-            Elements details = doc.select(".content_2020>p");
+            String id = page.url().split("id=")[1];
+            Document doc = Jsoup.parse(new URL(String.format("http://www.ccgp-shandong.gov.cn/sdgp2017/site/readcontractnew.jsp?id=%d", Integer.parseInt(id))), 2000);
 
-            String contractNo = StrUtil.clearTrim(details.get(0).child(0).text().split("：")[1]);
-            String contractName = StrUtil.clearTrim(details.get(1).child(0).text().split("：")[1]);
-            String projectNo = StrUtil.clearTrim(details.get(2).child(0).text().split("：")[1]);
-            String projectName = StrUtil.clearTrim(details.get(3).child(0).text().split("：")[1]);
-            String purchaser = StrUtil.clearTrim(details.get(5).text().split("：")[1]);
-            String purchaserTelNo = StrUtil.clearTrim(details.get(7).text().split("：")[1]);
-            String supplier = StrUtil.clearTrim(details.get(8).text().split("：")[1]);
-            String supplierTelNo = StrUtil.clearTrim(details.get(10).text().split("：")[1]);
-            String subjectName = StrUtil.clearTrim(details.get(12).text().split("：")[1]);
-            String subjectUnitPrice = StrUtil.clearTrim(details.get(15).text().split("：")[1]);
-            String contractValue = StrUtil.clearTrim(details.get(16).text().split("：")[1]);
-            String announceDate = StrUtil.dateFormat(StrUtil.clearTrim(details.get(20).child(0).text().split("：")[1]));
+            Elements elements = page.doc().select("div#textarea").get(0).child(0).children();
+            String contractNo = StrUtil.clearTrim(doc.select("span#Code").text());
+            String contractName = StrUtil.clearTrim(doc.select("span#PlanName").text());
+            String projectNo = StrUtil.clearTrim(doc.select("span#ProjectCode_1").text());
+            String projectName = StrUtil.clearTrim(doc.select("span#PlanName_").text());
+            String purchaser = StrUtil.clearTrim(doc.select("span#UnitName_3").text());
+            String purchaserTelNo = StrUtil.clearTrim(elements.get(10).text().split("：")[2]);
+            String supplier = StrUtil.clearTrim(doc.select("span#SupplierName_4").text());
+            String supplierTelNo = StrUtil.clearTrim(elements.get(6).text().split("：")[2]);
+            String subjectName = StrUtil.clearTrim(elements.get(2).text().split("：")[1]);
+            String subjectUnitPrice = null;
+            String contractValue = StrUtil.clearTrim(elements.get(7).text().split("：")[1]);
+            String announceDate = StrUtil.dateFormat(StrUtil.clearTrim(page.doc().select("div.info>midea").get(0).text().split("：")[1]));
 
             Contract contract = new Contract(urlName, contractNo, contractName, projectNo, projectName,
                     purchaser, purchaserTelNo, supplier, supplierTelNo, subjectName, subjectUnitPrice,

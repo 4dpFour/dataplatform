@@ -21,6 +21,7 @@ public class ZheJiangCrawler extends ContractCrawler {
      */
     public ZheJiangCrawler(String urlName, String seedPageFormat, String detailPageRegex, int start, int end, int thread) {
         super(urlName, seedPageFormat, detailPageRegex);
+        this.depth = 2;
 
         for (int i = start; i <= end; i++) {
             String seedUrl = String.format(seedPageFormat, i);

@@ -21,7 +21,8 @@ public interface ContractDAO {
             "(purchaser like CONCAT('%', #{str}, '%')) or (purchaserTelNo like CONCAT('%', #{str}, '%')) or " +
             "(supplier like CONCAT('%', #{str}, '%')) or (supplierTelNo like CONCAT('%', #{str}, '%')) or " +
             "(subjectName like CONCAT('%', #{str}, '%')) or (subjectUnitPrice like CONCAT('%', #{str}, '%')) or " +
-            "(contractValue like CONCAT('%', #{str}, '%')) or (announceDate like CONCAT('%', #{str}, '%')) order by STR_TO_DATE(announceDate,'%Y-%m-%d') desc"})
+            "(contractValue like CONCAT('%', #{str}, '%')) or (announceDate like CONCAT('%', #{str}, '%')) " +
+            "order by STR_TO_DATE(announceDate,'%Y-%m-%d') desc, id desc"})
     List<Contract> dimSelect(String str);
 
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})

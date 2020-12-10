@@ -67,7 +67,7 @@
         <foreach collection="list" item="url" open="(" separator="," close=")">
             '${url}'
         </foreach>
-        order by STR_TO_DATE(announceDate,'%Y-%m-%d') desc
+        order by STR_TO_DATE(announceDate,'%Y-%m-%d') desc , id desc
     </select>
     <insert id="addUnrepeatedly" useGeneratedKeys="true" keyProperty="id">
         insert ignore into contract (url, contractNo, contractName, projectNo, projectName, purchaser, purchaserTelNo,

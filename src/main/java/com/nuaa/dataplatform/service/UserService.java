@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public String register(String username, String password, Integer authority) {
-        User user = new User(username, password, authority);
+        User user = new User(username, password, authority, "[]");
         userDAO.addUser(user);
         //注册成功也发一个机票 自动登录
         return addLoginTicket(user.getId());

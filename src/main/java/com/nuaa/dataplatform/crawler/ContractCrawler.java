@@ -10,6 +10,7 @@ public abstract class ContractCrawler  extends BreadthCrawler {
     protected List<Contract> contracts = new ArrayList<>();
     protected String seedPage;
     protected String detailPage;
+    protected int depth = 2;
     public ContractCrawler(String urlName, String seedPage, String detailPage) {
         super(urlName, true);
         this.urlName = urlName;
@@ -31,5 +32,13 @@ public abstract class ContractCrawler  extends BreadthCrawler {
 
     public void setContracts(List<Contract> contracts) {
         this.contracts = contracts;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public void setDepth(int depth) {
+        this.depth = depth;
     }
 }
