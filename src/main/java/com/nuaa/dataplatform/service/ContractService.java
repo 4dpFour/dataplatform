@@ -26,6 +26,10 @@ public class ContractService {
         return contractDAO.selectById(id);
     }
 
+    public Contract getContractByNoAndName(String contractNo, String contractName) {
+        return contractDAO.selectByNoAndName(contractNo, contractName);
+    }
+
     public List<Contract> getContractsByUrl(String url) {
         return contractDAO.selectByUrl(url);
     }

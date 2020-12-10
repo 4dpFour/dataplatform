@@ -26,9 +26,51 @@
 
 ### 更新
 
+- **POST /contract**
+
+  参数 `contractNo` 和 `contractName` 改为**必填**项。
+  
+  新增两种返回情况：
+  
+  - 必填项为空：
+  
+    ```json
+    {
+        "code": 403,
+        "msg": "合同编号与合同名称不能为空",
+        "data": null
+    }
+    ```
+  
+  - 已有一条相同 `contractNo` 和 `contractName` 的合同：
+  
+    ```json
+    {
+        "code": 403,
+        "msg": "已存在相同的合同",
+        "data": null
+    }
+    ```
+  
+  由于爬虫在录入数据时，需要根据 `contractNo` 和 `contractName` 这两个字段判断合同是否已存在，在数据库为这俩字段建立了联合索引。因此这俩字段不能为空且对应唯一的一条合同。
+  
+- **PUT /contract/{id}**
+
+  新增一种返回情况：
+
+  - 存在 `contractNo` 和 `contractName` 且与另一合同重复：
+
+    ```json
+    {
+        "code": 403,
+        "msg": "已存在相同的合同",
+        "data": null
+    }
+    ```
+
 - **GET /contract/crawl**
 
-  - 新增了浙江和江苏采购网的爬虫，目前支持以下 url：
+  - 新增了山东采购网的爬虫，目前支持以下 url：
     - 中国政府采购网
     - 浙江省政府采购网
     - 湖北省政府采购网
@@ -40,19 +82,6 @@
     - ~~安徽省政府采购网~~ (不推荐演示，这网站速度极慢且极其容易超时)
   - 由于不同网站提供的信息不同，北京、江西、江苏的网站爬取的信息会出现部分字段为空。
   - **可以在参数中配置页码范围**，指定页码进行爬虫。
-  
-- **application.properties 配置文件更新**
-
-  现在在配置文件 `/src/main/resources/application.properties` 中可以配置默认的爬取范围：
-
-  ```properties
-  #    起始页码
-  crawl.page.start=1
-  #    结束页码
-  crawl.page.end=3
-  ```
-
-  表示对每个网站默认爬取第 1 至 3 页的内容。
 
 ---
 
@@ -527,65 +556,79 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
 
 请求参数：
 
-| 参数名           | 类型   | 说明           | 必填 |
-| ---------------- | ------ | -------------- | ---- |
-| url              | String | 来源url        | 否   |
-| contractNo       | String | 合同编号       | 否   |
-| contractName     | String | 合同名称       | 否   |
-| projectNo        | String | 项目编号       | 否   |
-| projectName      | String | 项目名称       | 否   |
-| purchaser        | String | 采购人         | 否   |
-| purchaserTelNo   | String | 采购人联系方式 | 否   |
-| supplier         | String | 供应商         | 否   |
-| supplierTelNo    | String | 供应商联系方式 | 否   |
-| subjectName      | String | 标的名称       | 否   |
-| subjectUnitPrice | String | 标的单价       | 否   |
-| contractValue    | String | 合同金额       | 否   |
-| announceDate     | String | 发布日期       | 否   |
+| 参数名           | 类型   | 说明           | 必填   |
+| ---------------- | ------ | -------------- | ------ |
+| url              | String | 来源url        | 否     |
+| contractNo       | String | 合同编号       | **是** |
+| contractName     | String | 合同名称       | **是** |
+| projectNo        | String | 项目编号       | 否     |
+| projectName      | String | 项目名称       | 否     |
+| purchaser        | String | 采购人         | 否     |
+| purchaserTelNo   | String | 采购人联系方式 | 否     |
+| supplier         | String | 供应商         | 否     |
+| supplierTelNo    | String | 供应商联系方式 | 否     |
+| subjectName      | String | 标的名称       | 否     |
+| subjectUnitPrice | String | 标的单价       | 否     |
+| contractValue    | String | 合同金额       | 否     |
+| announceDate     | String | 发布日期       | 否     |
 
 请求示例：
 
 ```json
 {
-    "url": "test-url",
-    "purchaser": "test-purchaser",
-    "contractValue": "test-contractValue"
+    "url": "山东省政府采购网",
+    "contractNo": "140063202000029_039",
+    "contractName": "教学实验材料",
+    "projectNo": "048-548001",
+    "projectName": "教学实验材料",
+    "purchaser": "山东中医药大学",
+    "purchaserTelNo": "89628116"
 }
 ```
 
 响应示例：
 
-添加成功将返回该合同的信息，并带有该合同的 id。
+添加成功：
 
 ```json
 {
     "code": 200,
     "msg": "OK",
     "data": {
-        "id": 1469,
-        "url": "test-url",
-        "contractNo": null,
-        "contractName": null,
-        "projectNo": null,
-        "projectName": null,
-        "purchaser": "test-purchaser",
-        "purchaserTelNo": null,
+        "id": 11084,
+        "url": "山东省政府采购网",
+        "contractNo": "140063202000029_039",
+        "contractName": "教学实验材料",
+        "projectNo": "048-548001",
+        "projectName": "教学实验材料",
+        "purchaser": "山东中医药大学",
+        "purchaserTelNo": "89628116",
         "supplier": null,
         "supplierTelNo": null,
         "subjectName": null,
         "subjectUnitPrice": null,
-        "contractValue": "test-contractValue",
+        "contractValue": null,
         "announceDate": null
     }
 }
 ```
 
-当所有参数都没有时，会返回：
+必填项为空：
 
 ```json
 {
     "code": 403,
-    "msg": "请至少填入一个字段",
+    "msg": "合同编号与合同名称不能为空",
+    "data": null
+}
+```
+
+已有一条相同 `contractNo` 和 `contractName` 的合同：
+
+```json
+{
+    "code": 403,
+    "msg": "已存在相同的合同",
     "data": null
 }
 ```
@@ -618,9 +661,12 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
 
 ```json
 {
-    "url": "update-url",
-    "projectNo": "update-projectNo",
-    "projectName": "update-projectName"
+    "url": "山东省政府采购网",
+    "contractName": "教学实验材料",
+    "projectNo": "048-548001",
+    "projectName": "教学实验材料",
+    "purchaser": "山东中医药大学",
+    "purchaserTelNo": "89628116"
 }
 ```
 
@@ -634,7 +680,17 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
 }
 ```
 
-当所有参数都没有时，会返回：
+存在 `contractNo` 和 `contractName` 且与另一合同重复：
+
+```json
+{
+    "code": 403,
+    "msg": "已存在相同的合同",
+    "data": null
+}
+```
+
+所有参数都为空：
 
 ```json
 {

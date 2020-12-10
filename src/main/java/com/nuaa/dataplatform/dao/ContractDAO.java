@@ -28,6 +28,9 @@ public interface ContractDAO {
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where id=#{id}"})
     Contract selectById(int id);
 
+    @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where contractNo=#{contractNo} and contractName=#{contractName}"})
+    Contract selectByNoAndName(String contractNo, String contractName);
+
     @Select({"select ", SELECT_FIELDS, " from ", TABLE_NAME, " where url=#{url} order by id desc"})
     List<Contract> selectByUrl(String url);
 

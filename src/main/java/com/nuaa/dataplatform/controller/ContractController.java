@@ -99,10 +99,15 @@ public class ContractController {
     @PostMapping()
     public Result addContract(@RequestBody Map<String, String> requestMap) {
         try {
-            Contract contract = new Contract(requestMap);
-            if (contract.allFieldEmpty()) {
-                return Result.failure(FORBIDDEN, "请至少填入一个字段");
+            String contractNo = requestMap.get("contractNo");
+            String contractName = requestMap.get("contractName");
+            if (StrUtil.isEmpty(contractNo) || StrUtil.isEmpty(contractName)) {
+                return Result.failure(FORBIDDEN, "合同编号与合同名称不能为空");
             }
+            if (contractService.getContractByNoAndName(contractNo, contractName) != null) {
+                return Result.failure(FORBIDDEN, "已存在相同的合同");
+            }
+            Contract contract = new Contract(requestMap);
             return Result.success(contractService.addContract(contract));
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,6 +119,11 @@ public class ContractController {
     public Result updateContract(@PathVariable("id") int id,
                                  @RequestBody Map<String, String> requestMap) {
         try {
+            String contractNo = requestMap.get("contractNo");
+            String contractName = requestMap.get("contractName");
+            if (!StrUtil.isEmpty(contractNo) && !StrUtil.isEmpty(contractName) && contractService.getContractByNoAndName(contractNo, contractName) != null) {
+                return Result.failure(FORBIDDEN, "已存在相同的合同");
+            }
             Contract contract = new Contract(requestMap);
             if (contract.allFieldEmpty()) {
                 return Result.failure(FORBIDDEN, "未输入更新项");
