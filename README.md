@@ -28,23 +28,20 @@
 
 - **GET /contract/crawl**
 
-  - 整合了 WebCollector 爬虫框架，爬虫更稳定了(大概吧)，目前支持以下 url：
+  - 新增了浙江和江苏采购网的爬虫，目前支持以下 url：
     - 中国政府采购网
+    - 浙江省政府采购网
     - 湖北省政府采购网
     - 河北省政府采购网
     - 北京市政府采购网
     - 江西省政府采购网
     - 江苏省政府采购网
-    - ~~安徽省政府采购网~~ (不推荐演示，这网站爬的极慢且极其容易超时)
-
+  - ~~安徽省政府采购网~~ (不推荐演示，这网站爬的极慢且极其容易超时)
+    
   - 由于不同网站提供的信息不同，北京、江西、江苏的网站爬取的信息会出现部分字段为空。
-  - GET 方法的爬虫将从配置文件中获取页码范围，如需自定义页码范围，可以调用同地址的 POST 方法。
+  - **可以在参数中配置页码范围**，指定页码进行爬虫。
 
-- **POST /contract/crawl**
-
-  可以在 body 中配置页码范围，指定页码进行爬虫。
-
-- **application.properties 配置文件**
+- **application.properties 配置文件更新**
 
   现在在配置文件 `/src/main/resources/application.properties` 中可以配置默认的爬取范围：
 
@@ -356,6 +353,22 @@
 
 请求地址：GET /contract/crawl
 
+请求参数：
+
+| 参数名 | 类型 | 说明             | 必填                     |
+| ------ | ---- | ---------------- | ------------------------ |
+| start  | int  | 起始页码         | 否，默认值由配置文件规定 |
+| end    | int  | 终止页码         | 否，默认值由配置文件规定 |
+| thread | int  | 开几个线程来爬取 | 否，默认值由配置文件规定 |
+
+请求示例：
+
+```url
+http://localhost:8080/api/contract/crawl
+
+http://localhost:8080/api/contract/crawl?start=5&end=10
+```
+
 响应示例：
 
 1. 爬取成功，且更新了数据
@@ -390,39 +403,6 @@
 }
 ```
 
-#### POST /contract/crawl
-
-请求地址：POST /contract/crawl
-
-请求参数：
-
-| 参数名 | 类型 | 说明             | 必填      |
-| ------ | ---- | ---------------- | --------- |
-| start  | int  | 起始页码         | 是        |
-| end    | int  | 终止页码         | 是        |
-| thread | int  | 开几个线程来爬取 | 否，默认1 |
-
-请求示例：爬取第 1 页至第 10 页的数据：
-
-```json
-{
-    "start": 1,
-    "end": 10
-}
-```
-
-响应示例：
-
-```json
-{
-    "code": 200,
-    "msg": "OK",
-    "data": {
-        "increment": 959
-    }
-}
-```
-
 #### GET /contract/list
 
 - 请求当前用户配置的 url 的合同数据
@@ -440,9 +420,9 @@
 请求示例：
 
 ```url
-http://localhost:8080/contract/list
+http://localhost:8080/api/contract/list
 
-http://localhost:8080/contract/list?query=国家卫星气象中心 中国建筑技术集团有限公司
+http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建筑技术集团有限公司
 ```
 
 响应示例：

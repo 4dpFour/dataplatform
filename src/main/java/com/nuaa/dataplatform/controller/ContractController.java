@@ -31,33 +31,21 @@ public class ContractController {
     private int CRAWL_THREAD;
 
     @GetMapping("/crawl")
-    public Result crawlContractsDefault() {
+    public Result crawlContractsDefault(@RequestParam(name = "start", required = false) Integer start,
+                                        @RequestParam(name = "end", required = false) Integer end,
+                                        @RequestParam(name = "thread", required = false) Integer thread) {
         try {
-            int increment = contractService.crawl(hostHolder.getUser().getUrlsList(), CRAWL_PAGE_START, CRAWL_PAGE_END, CRAWL_THREAD);
-            if (increment > 0) {
-                HashMap<String, Integer> resultMap = new HashMap<>();
-                resultMap.put("increment", increment);
-                return Result.success(resultMap);
-            } else {
-                return Result.failure(NOT_FOUND, "没爬到任何数据");
+            if (start == null) {
+                start = CRAWL_PAGE_START;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Result.failure(SERVER_ERROR);
-        }
-    }
-
-    @PostMapping("/crawl")
-    public Result crawlContracts(@RequestBody Map<String, Integer> requestMap) {
-        try {
-            Integer start = requestMap.get("start");
-            Integer end = requestMap.get("end");
-            Integer thread = requestMap.get("thread");
-            if (start == null || end == null || end < start) {
+            if (end == null) {
+                end = CRAWL_PAGE_END;
+            }
+            if (thread == null) {
+                thread = CRAWL_THREAD;
+            }
+            if (end < start) {
                 return Result.failure(FORBIDDEN, "页码数不合法");
-            }
-            if (thread == null || thread == 0) {
-                thread = 1;
             }
             int increment = contractService.crawl(hostHolder.getUser().getUrlsList(), start, end, thread);
             if (increment > 0) {
