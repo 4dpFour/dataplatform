@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import static com.nuaa.dataplatform.util.ResultCode.*;
 
-
 @RestController
 @RequestMapping("/contract")
 public class ContractController {
