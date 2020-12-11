@@ -2,13 +2,11 @@ package com.nuaa.dataplatform.crawler;
 
 import cn.edu.hfut.dmic.webcollector.model.CrawlDatums;
 import cn.edu.hfut.dmic.webcollector.model.Page;
-import com.google.gson.JsonArray;
 import com.nuaa.dataplatform.entity.Contract;
 import com.nuaa.dataplatform.util.StrUtil;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-
 import java.net.URL;
 import java.util.List;
 

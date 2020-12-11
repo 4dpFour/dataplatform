@@ -47,6 +47,9 @@ public class JiangXiCrawler extends ContractCrawler {
             Document doc = page.doc();
             Elements details = doc.select(".suojin");
             Elements table = doc.select("table[style=\"text-align: center;\"]");
+            if (table == null || table.size() == 0) {
+                return;
+            }
             Elements titles = table.get(0).child(0).child(0).children();
             Elements fields = table.get(0).child(0).child(1).children();
             Map<String, String> tableMap = new HashMap<String, String>();

@@ -44,18 +44,18 @@ public class AnHuiCrawler extends ContractCrawler {
             Document doc = page.doc();
             Elements details = doc.select(".MsoNormal");
 
-            String contractNo = StrUtil.clearTrim(details.get(1).child(0).child(0).text());
-            String contractName = StrUtil.clearTrim(details.get(2).child(0).child(0).text());
-            String projectNo = StrUtil.clearTrim(details.get(3).child(0).child(0).text());
-            String projectName = StrUtil.clearTrim(details.get(4).child(0).child(0).text());
-            String purchaser = StrUtil.clearTrim(details.get(6).child(1).text());
-            String purchaserTelNo = StrUtil.clearTrim(details.get(8).child(0).child(0).text());;
-            String supplier = StrUtil.clearTrim(details.get(9).child(0).child(0).text());
-            String supplierTelNo = StrUtil.clearTrim(details.get(11).child(0).child(0).text());
-            String subjectName = StrUtil.clearTrim(details.get(13).child(0).child(0).text());
-            String subjectUnitPrice = StrUtil.clearTrim(details.get(16).child(0).child(0).text());
-            String contractValue = StrUtil.clearTrim(details.get(17).child(0).child(0).text());
-            String announceDate = StrUtil.dateFormat(StrUtil.clearTrim(details.get(21).child(0).child(0).text()));
+            String contractNo = StrUtil.clearTrim(details.get(1).text().split("：")[1]);
+            String contractName = StrUtil.clearTrim(details.get(2).text().split("：")[1]);
+            String projectNo = StrUtil.clearTrim(details.get(3).text().split("：")[1]);
+            String projectName = StrUtil.clearTrim(details.get(4).text().split("：")[1]);
+            String purchaser = StrUtil.clearTrim(details.get(6).text().split("：")[1]);
+            String purchaserTelNo = StrUtil.clearTrim(details.get(8).text().split("：")[1]);;
+            String supplier = StrUtil.clearTrim(details.get(9).text().split("：")[1]);
+            String supplierTelNo = StrUtil.clearTrim(details.get(11).text().split("：")[1]);
+            String subjectName = StrUtil.clearTrim(details.get(13).text().split("：")[1]);
+            String subjectUnitPrice = StrUtil.clearTrim(details.get(16).text().split("：")[1]);
+            String contractValue = StrUtil.clearTrim(details.get(17).text().split("：")[1]);
+            String announceDate = StrUtil.dateFormat(StrUtil.clearTrim(details.get(21).text().split("：")[1]));
 
             Contract contract = new Contract(urlName, contractNo, contractName, projectNo, projectName,
                     purchaser, purchaserTelNo, supplier, supplierTelNo, subjectName, subjectUnitPrice,

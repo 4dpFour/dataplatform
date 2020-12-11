@@ -44,21 +44,20 @@ public class HeBeiCrawler extends ContractCrawler {
                 return;
             }
             Document doc = page.doc();
-            Elements details = doc.select(".suojin");
-            List<Node> nodes = doc.select("span.txt7").get(1).childNodes();
+            String[] details = doc.select("span.txt7").get(1).html().split("</span>");
 
-            String contractNo = StrUtil.clearTrim(nodes.get(2).toString());
-            String contractName = StrUtil.clearTrim(nodes.get(6).toString());
-            String projectNo = StrUtil.clearTrim(nodes.get(10).toString());
-            String projectName = StrUtil.clearTrim(nodes.get(14).toString());
-            String purchaser = StrUtil.clearTrim(nodes.get(20).childNode(0).toString());
-            String purchaserTelNo = StrUtil.clearTrim(nodes.get(26).childNode(0).toString());
-            String supplier = StrUtil.clearTrim(nodes.get(29).childNode(0).toString());
-            String supplierTelNo = StrUtil.clearTrim(nodes.get(36).childNode(0).toString());
-            String subjectName = StrUtil.clearTrim(nodes.get(42).childNode(0).toString());
-            String subjectUnitPrice = StrUtil.clearTrim(nodes.get(51).childNode(0).toString());
-            String contractValue = StrUtil.clearTrim(nodes.get(54).childNode(0).toString());
-            String announceDate = StrUtil.dateFormat(StrUtil.clearTrim(nodes.get(68).childNode(0).toString()));
+            String contractNo = StrUtil.clearTrim(details[1].split("<br>")[0]);
+            String contractName = StrUtil.clearTrim(details[2].split("<br>")[0]);
+            String projectNo = StrUtil.clearTrim(details[3].split("<br>")[0]);
+            String projectName = StrUtil.clearTrim(details[4].split("<br>")[0]);
+            String purchaser = StrUtil.clearTrim(details[5].split("<span>")[1]);
+            String purchaserTelNo = StrUtil.clearTrim(details[7].split("<span>")[1]);
+            String supplier = StrUtil.clearTrim((details[8].split("<span id=\"supplier\">")[1]));
+            String supplierTelNo = StrUtil.clearTrim(details[11].split("<span>")[1]);
+            String subjectName = StrUtil.clearTrim(details[13].split("<span>")[1]);
+            String subjectUnitPrice = StrUtil.clearTrim(details[16].split("<span>")[1]);
+            String contractValue = StrUtil.clearTrim(details[17].split("<span>")[1]);
+            String announceDate = StrUtil.dateFormat(StrUtil.clearTrim(details[23].split("<span>")[1]));
 
             Contract contract = new Contract(urlName, contractNo, contractName, projectNo, projectName,
                     purchaser, purchaserTelNo, supplier, supplierTelNo, subjectName, subjectUnitPrice,
@@ -68,6 +67,7 @@ public class HeBeiCrawler extends ContractCrawler {
                 contracts.add(contract);
             }
         } catch (Exception e) {
+            System.out.println(page.url());
             e.printStackTrace();
         }
     }
