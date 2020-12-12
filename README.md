@@ -764,13 +764,32 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
    git clone https://github.com/4dpFour/dataplatform.git
    ```
 
-2. 使用 Maven 下载依赖并构建项目
+2. 在 `/src/main/resources` 目录下添加配置文件 `application.properties` 
+
+   ```properties
+   # 数据库连接字符串
+   spring.datasource.url=
+   # 数据库连接用户名
+   spring.datasource.username=
+   # 数据库连接密码
+   spring.datasource.password=
+   mybatis.config-location=classpath:mybatis-config.xml
+   
+   server.port=8080
+   server.servlet.context-path=/api
+   crawl.depth=2
+   crawl.thread=1
+   crawl.page.start=1
+   crawl.page.end=3
+   ```
+
+3. 使用 Maven 下载依赖并构建项目
 
    ```shell
    mvn install
    ```
 
-3. 运行项目
+4. 运行项目
 
    ```shell
    java -jar /target/dataplatform-1.1.2.jar
