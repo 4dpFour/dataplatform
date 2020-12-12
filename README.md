@@ -24,6 +24,9 @@
 
 [项目部署](#项目部署)
 
+- [环境依赖](#环境依赖)
+- [运行部署](#运行部署)
+
 ---
 
 
@@ -764,7 +767,7 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
    git clone https://github.com/4dpFour/dataplatform.git
    ```
 
-2. 在 `/src/main/resources` 目录下添加配置文件 `application.properties` 
+2. 在 `src/main/resources` 目录下添加配置文件 `application.properties` 
 
    ```properties
    # 数据库连接字符串
@@ -773,8 +776,8 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
    spring.datasource.username=
    # 数据库连接密码
    spring.datasource.password=
-   mybatis.config-location=classpath:mybatis-config.xml
    
+   mybatis.config-location=classpath:mybatis-config.xml
    server.port=8080
    server.servlet.context-path=/api
    crawl.depth=2
@@ -792,6 +795,6 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
 4. 运行项目
 
    ```shell
-   java -jar /target/dataplatform-1.1.2.jar
+   java -jar target/dataplatform-1.1.2.jar
    ```
 
