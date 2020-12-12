@@ -1,6 +1,6 @@
 
 
-# 接口文档
+[接口文档](#接口文档)
 
 + [更新](#更新)
 + [网址模块](#网址模块)
@@ -22,7 +22,13 @@
   - [DELETE /contract/{id}](#delete-contractid)
   - [DELETE /contract](#delete-contract)
 
+[项目部署](#项目部署)
+
 ---
+
+
+
+# 接口文档
 
 ### 更新
 
@@ -45,8 +51,10 @@
     | 安徽省政府采购网 | 21             | 14.39    |
     | 山东省政府采购网 | 19             | 32.3     |
 
-  - 由于不同网站提供的信息不同，北京、江西、江苏、山东的网站爬取的信息会出现部分字段为空。
+  - 演示时最好不要用最后两个网站，太特么坑了
 
+  - 由于不同网站提供的信息不同，北京、江西、江苏、山东的网站爬取的信息会出现部分字段为空。
+  
   - 可以在参数中配置页码范围，指定页码进行爬虫。
 
 ---
@@ -737,4 +745,34 @@ http://localhost:8080/api/contract/list?query=国家卫星气象中心 中国建
     "data": null
 }
 ```
+
+
+
+# 项目部署
+
+### 环境依赖
+
+1. JDK/JRE 1.8
+2. Maven
+3. MySQL 5.7 (默认使用服务器的数据库)
+
+### 运行部署
+
+1. 下载项目源码
+
+   ```shell
+   git clone https://github.com/4dpFour/dataplatform.git
+   ```
+
+2. 使用 Maven 下载依赖并构建项目
+
+   ```shell
+   mvn install
+   ```
+
+3. 运行项目
+
+   ```shell
+   java -jar /target/dataplatform-1.1.2.jar
+   ```
 
