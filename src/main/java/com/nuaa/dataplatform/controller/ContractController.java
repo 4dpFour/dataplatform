@@ -121,7 +121,8 @@ public class ContractController {
         try {
             String contractNo = requestMap.get("contractNo");
             String contractName = requestMap.get("contractName");
-            if (!StrUtil.isEmpty(contractNo) && !StrUtil.isEmpty(contractName) && contractService.getContractByNoAndName(contractNo, contractName) != null) {
+            Contract select = contractService.getContractByNoAndName(contractNo, contractName);
+            if (!StrUtil.isEmpty(contractNo) && !StrUtil.isEmpty(contractName) && select != null && select.getId() != id) {
                 return Result.failure(FORBIDDEN, "已存在相同的合同");
             }
             Contract contract = new Contract(requestMap);
